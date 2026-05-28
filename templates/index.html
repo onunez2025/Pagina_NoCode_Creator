@@ -6,7 +6,8 @@
     selectedRubro: 'Restaurante / Cafetería',
     calculatedCost: 850,
     calculatedDays: 4,
-    showcasedModules: [],
+    showcasedModules: ['ventas', 'inventario'],
+    calcTab: 'config',
     
     // Sync calculator to wizard
     syncCalculatorToWizard() {
@@ -160,13 +161,40 @@
         <!-- Decoration background glow -->
         <div class="absolute inset-0 bg-brand-indigo/5 rounded-3xl blur-3xl -z-10"></div>
         
-        <div class="text-center space-y-4 max-w-2xl mx-auto mb-12">
+        <div class="text-center space-y-4 max-w-2xl mx-auto mb-6 md:mb-12">
             <h2 class="text-3xl sm:text-4xl font-extrabold text-white">
                 Cotizador Inteligente de Plataforma
             </h2>
             <p class="text-slate-400 text-sm sm:text-base">
                 Selecciona tu rubro y los módulos de software que necesita tu negocio para calcular de forma transparente el costo y el tiempo estimado.
             </p>
+        </div>
+
+        <!-- Tabs Selector for Mobile (lg:hidden) -->
+        <div class="flex lg:hidden mb-6 bg-slate-200/60 dark:bg-slate-950/40 p-1.5 rounded-xl border border-slate-300/50 dark:border-white/5 gap-2 max-w-md mx-auto relative z-20">
+            <button 
+                type="button"
+                @click="calcTab = 'config'"
+                :class="calcTab === 'config' ? 'bg-brand-cyan text-brand-dark shadow-lg shadow-brand-cyan/20 font-bold' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'"
+                class="flex-1 py-2.5 text-xs font-semibold rounded-lg transition-all flex items-center justify-center gap-1.5"
+            >
+                <i data-lucide="sliders" class="w-4 h-4"></i>
+                1. Personalizar
+            </button>
+            <button 
+                type="button"
+                @click="calcTab = 'summary'"
+                :class="calcTab === 'summary' ? 'bg-brand-cyan text-brand-dark shadow-lg shadow-brand-cyan/20 font-bold' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'"
+                class="flex-1 py-2.5 text-xs font-semibold rounded-lg transition-all flex items-center justify-center gap-1.5 relative"
+            >
+                <i data-lucide="calculator" class="w-4 h-4"></i>
+                2. Ver Resumen
+                <!-- Pulsing indicator if not on summary tab -->
+                <span x-show="calcTab !== 'summary'" class="absolute top-1 right-1 flex h-1.5 w-1.5">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-cyan opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-brand-cyan"></span>
+                </span>
+            </button>
         </div>
 
         <div 
@@ -188,7 +216,6 @@
                 ],
                 
                 init() {
-                    this.showcasedModules = ['ventas', 'inventario']; // modulos por defecto
                     this.recalculate();
                 },
                 
@@ -199,7 +226,7 @@
                     let extraDays = 0;
                     
                     this.modulesList.forEach(mod => {
-                        if (this.showcasedModules.includes(mod.id)) {
+                        if (showcasedModules.includes(mod.id)) {
                             extraCost += mod.cost;
                             extraDays += mod.days;
                         }
@@ -213,37 +240,111 @@
             class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start"
         >
             <!-- Inputs Column (7 cols) -->
-            <div class="lg:col-span-7 space-y-6">
+            <div 
+                :class="calcTab === 'config' ? 'block' : 'hidden lg:block'"
+                class="lg:col-span-7 space-y-6"
+            >
                 <!-- Rubro Selection -->
-                <div class="glass-panel p-6 rounded-2xl space-y-4">
+                <div class="glass-panel p-4 md:p-6 rounded-2xl space-y-3 md:space-y-4">
                     <label class="text-sm font-semibold uppercase text-brand-cyan tracking-wider flex items-center gap-2">
                         <i data-lucide="tag" class="w-4 h-4"></i>
                         1. Elige el Rubro de tu Negocio
                     </label>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <template x-for="(multiplier, key) in rubroMultipliers">
-                            <button 
-                                @click="selectedRubro = key; recalculate()"
-                                :class="selectedRubro === key ? 'border-brand-cyan bg-brand-cyan/10 text-white' : 'border-white/5 hover:border-white/20 text-slate-300'"
-                                class="w-full text-left px-4 py-3 rounded-xl border text-sm font-medium transition-all flex items-center justify-between"
-                            >
-                                <span x-text="key"></span>
-                                <span 
-                                    x-show="selectedRubro === key" 
-                                    class="w-2 h-2 rounded-full bg-brand-cyan shadow-md shadow-brand-cyan/50"
-                                ></span>
-                            </button>
-                        </template>
+                    <div class="grid grid-cols-2 gap-2 sm:gap-3">
+                        <!-- Restaurante -->
+                        <button 
+                            type="button"
+                            @click="selectedRubro = 'Restaurante / Cafetería'; recalculate()"
+                            :class="selectedRubro === 'Restaurante / Cafetería' ? 'border-brand-cyan bg-brand-cyan/10 text-white' : 'border-white/5 hover:border-white/20 text-slate-300'"
+                            class="w-full text-left p-3 rounded-xl border text-xs sm:text-sm font-semibold transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-1.5"
+                        >
+                            <div class="flex items-center gap-1.5">
+                                <i data-lucide="utensils" class="w-4 h-4 text-brand-cyan flex-shrink-0"></i>
+                                <span>Restaurante / Café</span>
+                            </div>
+                            <span 
+                                x-show="selectedRubro === 'Restaurante / Cafetería'" 
+                                class="w-2 h-2 rounded-full bg-brand-cyan shadow-md shadow-brand-cyan/50 self-end sm:self-auto"
+                            ></span>
+                        </button>
+
+                        <!-- Bodega / Minimarket -->
+                        <button 
+                            type="button"
+                            @click="selectedRubro = 'Bodega / Minimarket / Distribuidora'; recalculate()"
+                            :class="selectedRubro === 'Bodega / Minimarket / Distribuidora' ? 'border-brand-cyan bg-brand-cyan/10 text-white' : 'border-white/5 hover:border-white/20 text-slate-300'"
+                            class="w-full text-left p-3 rounded-xl border text-xs sm:text-sm font-semibold transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-1.5"
+                        >
+                            <div class="flex items-center gap-1.5">
+                                <i data-lucide="shopping-bag" class="w-4 h-4 text-brand-indigo flex-shrink-0"></i>
+                                <span>Minimarket / Bodega</span>
+                            </div>
+                            <span 
+                                x-show="selectedRubro === 'Bodega / Minimarket / Distribuidora'" 
+                                class="w-2 h-2 rounded-full bg-brand-cyan shadow-md shadow-brand-cyan/50 self-end sm:self-auto"
+                            ></span>
+                        </button>
+
+                        <!-- Clínica -->
+                        <button 
+                            type="button"
+                            @click="selectedRubro = 'Clínica / Consultorio'; recalculate()"
+                            :class="selectedRubro === 'Clínica / Consultorio' ? 'border-brand-cyan bg-brand-cyan/10 text-white' : 'border-white/5 hover:border-white/20 text-slate-300'"
+                            class="w-full text-left p-3 rounded-xl border text-xs sm:text-sm font-semibold transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-1.5"
+                        >
+                            <div class="flex items-center gap-1.5">
+                                <i data-lucide="activity" class="w-4 h-4 text-red-400 flex-shrink-0"></i>
+                                <span>Clínica / Consultorio</span>
+                            </div>
+                            <span 
+                                x-show="selectedRubro === 'Clínica / Consultorio'" 
+                                class="w-2 h-2 rounded-full bg-brand-cyan shadow-md shadow-brand-cyan/50 self-end sm:self-auto"
+                            ></span>
+                        </button>
+
+                        <!-- Servicios -->
+                        <button 
+                            type="button"
+                            @click="selectedRubro = 'Servicios Profesionales / Consultoría'; recalculate()"
+                            :class="selectedRubro === 'Servicios Profesionales / Consultoría' ? 'border-brand-cyan bg-brand-cyan/10 text-white' : 'border-white/5 hover:border-white/20 text-slate-300'"
+                            class="w-full text-left p-3 rounded-xl border text-xs sm:text-sm font-semibold transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-1.5"
+                        >
+                            <div class="flex items-center gap-1.5">
+                                <i data-lucide="briefcase" class="w-4 h-4 text-brand-amber flex-shrink-0"></i>
+                                <span>Servicios / Consultoría</span>
+                            </div>
+                            <span 
+                                x-show="selectedRubro === 'Servicios Profesionales / Consultoría'" 
+                                class="w-2 h-2 rounded-full bg-brand-cyan shadow-md shadow-brand-cyan/50 self-end sm:self-auto"
+                            ></span>
+                        </button>
+
+                        <!-- E-commerce / Tienda -->
+                        <button 
+                            type="button"
+                            @click="selectedRubro = 'E-commerce / Tienda Virtual'; recalculate()"
+                            :class="selectedRubro === 'E-commerce / Tienda Virtual' ? 'border-brand-cyan bg-brand-cyan/10 text-white' : 'border-white/5 hover:border-white/20 text-slate-300'"
+                            class="col-span-2 text-left p-3 rounded-xl border text-xs sm:text-sm font-semibold transition-all flex items-center justify-between gap-1.5"
+                        >
+                            <div class="flex items-center gap-1.5">
+                                <i data-lucide="shopping-cart" class="w-4 h-4 text-green-400 flex-shrink-0"></i>
+                                <span>E-commerce / Tienda Virtual</span>
+                            </div>
+                            <span 
+                                x-show="selectedRubro === 'E-commerce / Tienda Virtual'" 
+                                class="w-2 h-2 rounded-full bg-brand-cyan shadow-md shadow-brand-cyan/50"
+                            ></span>
+                        </button>
                     </div>
                 </div>
 
                 <!-- Modules Selection -->
-                <div class="glass-panel p-6 rounded-2xl space-y-4">
+                <div class="glass-panel p-4 md:p-6 rounded-2xl space-y-3 md:space-y-4">
                     <label class="text-sm font-semibold uppercase text-brand-cyan tracking-wider flex items-center gap-2">
                         <i data-lucide="layers" class="w-4 h-4"></i>
                         2. Selecciona las Funcionalidades que Necesitas
                     </label>
-                    <div class="space-y-3">
+                    <div class="space-y-2.5 md:space-y-3">
                         <template x-for="mod in modulesList" :key="mod.id">
                             <div class="relative">
                                 <input 
@@ -256,7 +357,8 @@
                                 />
                                 <label 
                                     :for="'mod-' + mod.id"
-                                    class="flex items-start p-4 rounded-xl border border-white/5 hover:border-white/15 bg-slate-900/40 cursor-pointer transition-all select-none gap-4"
+                                    :class="showcasedModules.includes(mod.id) ? 'border-brand-cyan bg-brand-cyan/10 dark:bg-brand-cyan/5 text-white' : 'border-white/5 hover:border-white/15 bg-slate-900/40 text-slate-300'"
+                                    class="flex items-start p-3 md:p-4 rounded-xl border cursor-pointer transition-all select-none gap-3 md:gap-4"
                                 >
                                     <!-- Custom Checkbox Indicator -->
                                     <div class="flex-shrink-0 mt-0.5 w-5 h-5 rounded border border-white/20 flex items-center justify-center transition-all"
@@ -268,7 +370,15 @@
                                             <span class="text-sm font-bold text-white" x-text="mod.name"></span>
                                             <span class="text-xs text-brand-cyan font-bold" x-text="'+ S/ ' + mod.cost"></span>
                                         </div>
-                                        <p class="text-xs text-slate-400 mt-1" x-text="mod.desc"></p>
+                                        <!-- Collapsible description to reduce mobile scroll -->
+                                        <div 
+                                            x-show="showcasedModules.includes(mod.id)"
+                                            x-transition:enter="transition ease-out duration-300"
+                                            x-transition:enter-start="opacity-0 max-h-0 overflow-hidden"
+                                            x-transition:enter-end="opacity-100 max-h-[100px] overflow-hidden"
+                                            class="text-xs text-slate-400 mt-1.5" 
+                                            x-text="mod.desc"
+                                        ></div>
                                     </div>
                                 </label>
                             </div>
@@ -278,7 +388,10 @@
             </div>
 
             <!-- Pricing Comparison Column (5 cols) -->
-            <div class="lg:col-span-5 lg:sticky lg:top-24">
+            <div 
+                :class="calcTab === 'summary' ? 'block' : 'hidden lg:block'"
+                class="lg:col-span-5 lg:sticky lg:top-24"
+            >
                 <div class="glass-panel rounded-2xl overflow-hidden border border-brand-cyan/20 shadow-2xl relative">
                     <!-- Top Ribbon -->
                     <div class="bg-gradient-to-r from-brand-cyan to-brand-indigo px-6 py-4 flex items-center justify-between text-brand-dark">
@@ -331,6 +444,7 @@
                     <!-- CTA to Wizard -->
                     <div class="p-6">
                         <button 
+                            type="button"
                             @click="syncCalculatorToWizard()"
                             class="w-full relative group overflow-hidden px-6 py-3.5 rounded-xl font-bold text-sm transition-all duration-300 text-center"
                         >
@@ -346,6 +460,47 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <!-- Sticky Bottom Bar for Mobile Devices -->
+        <div 
+            x-show="calculatedCost > 0" 
+            x-transition:enter="transition ease-out duration-300 transform"
+            x-transition:enter-start="translate-y-full"
+            x-transition:enter-end="translate-y-0"
+            x-transition:leave="transition ease-in duration-200 transform"
+            x-transition:leave-start="translate-y-0"
+            x-transition:leave-end="translate-y-full"
+            class="fixed bottom-0 left-0 w-full z-40 bg-white/95 dark:bg-slate-950/95 backdrop-blur-md border-t border-slate-200/80 dark:border-white/10 px-6 py-3.5 shadow-[0_-10px_30px_rgba(0,0,0,0.12)] flex items-center justify-between lg:hidden"
+        >
+            <!-- Pricing Info -->
+            <div class="flex flex-col">
+                <span class="text-[9px] text-slate-500 dark:text-slate-400 uppercase tracking-widest font-bold">Total Estimado</span>
+                <div class="flex items-baseline space-x-0.5 mt-0.5">
+                    <span class="text-xs font-bold text-brand-cyan">S/</span>
+                    <span class="text-xl font-black text-slate-900 dark:text-white" x-text="calculatedCost"></span>
+                    <span class="text-[9px] text-slate-400 dark:text-slate-500 ml-1">inc. IGV</span>
+                </div>
+                <!-- Days badge -->
+                <span class="text-[9px] text-brand-cyan font-semibold mt-0.5 flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-brand-cyan animate-pulse"></span>
+                    <span x-text="calculatedDays + ' días de entrega'"></span>
+                </span>
+            </div>
+
+            <!-- Action Button -->
+            <button 
+                type="button"
+                @click="if (calcTab === 'config') { calcTab = 'summary'; document.getElementById('cotizador').scrollIntoView({ behavior: 'smooth' }); } else { syncCalculatorToWizard(); }"
+                :class="calcTab === 'config' ? 'bg-brand-indigo text-white shadow-brand-indigo/20' : 'bg-gradient-to-r from-brand-cyan to-brand-indigo text-brand-dark shadow-brand-cyan/20'"
+                class="px-5 py-3 font-extrabold text-xs uppercase tracking-wider rounded-xl shadow-lg active:scale-95 transition-all flex items-center gap-1.5"
+            >
+                <span :class="calcTab === 'config' ? 'text-white' : 'text-brand-dark'" x-text="calcTab === 'config' ? 'Ver Resumen' : 'Cotizar Ahora'"></span>
+                <!-- Config Tab Icon -->
+                <i x-show="calcTab === 'config'" data-lucide="arrow-right" class="w-3.5 h-3.5 text-white"></i>
+                <!-- Summary Tab Icon -->
+                <i x-show="calcTab === 'summary'" data-lucide="calculator" class="w-3.5 h-3.5 text-brand-dark" style="display: none;"></i>
+            </button>
         </div>
     </section>
 

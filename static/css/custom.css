@@ -170,6 +170,14 @@ body:not(.dark) button.border-brand-cyan {
     color: #0891b2 !important;
 }
 
+/* Ensure text-white elements inside buttons remain white even in Light Mode */
+body:not(.dark) button .text-white,
+body:not(.dark) button.text-white,
+body:not(.dark) button i.text-white,
+body:not(.dark) button span.text-white {
+    color: #ffffff !important;
+}
+
 /* Checkbox Cards for Modules */
 body:not(.dark) label[for^="mod-"] {
     background-color: #ffffff !important;
