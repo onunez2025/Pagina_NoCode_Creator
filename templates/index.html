@@ -10,10 +10,6 @@
     
     // Sync calculator to wizard
     syncCalculatorToWizard() {
-        $refs.wizardRubro.value = this.selectedRubro;
-        $refs.wizardCosto.value = 'S/ ' + this.calculatedCost;
-        $refs.wizardTiempo.value = this.calculatedDays + ' días';
-        
         // Scroll to wizard smooth
         document.getElementById('leads-wizard').scrollIntoView({ behavior: 'smooth' });
     }
