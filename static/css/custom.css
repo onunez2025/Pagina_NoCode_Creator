@@ -85,12 +85,13 @@ h1, h2, h3, h4, h5, h6 {
     background: radial-gradient(circle, rgba(245, 158, 11, 0.1) 0%, transparent 70%);
 }
 
-/* Adaptive styles when .dark class is NOT present on the body (Light Mode) */
+/* Adaptive styles when .dark class is NOT present on the body (Light Mode Premium UX/UI) */
 body:not(.dark) {
     background-color: #f8fafc;
     color: #334155;
 }
 
+/* Typography & Contrast Controls */
 body:not(.dark) h1, 
 body:not(.dark) h2, 
 body:not(.dark) h3, 
@@ -105,60 +106,210 @@ body:not(.dark) .text-white {
 }
 
 body:not(.dark) .text-slate-300 {
-    color: #475569 !important;
+    color: #334155 !important;
 }
 
 body:not(.dark) .text-slate-400 {
-    color: #64748b !important;
+    color: #475569 !important;
 }
 
 body:not(.dark) .text-slate-100 {
-    color: #1e293b !important;
+    color: #0f172a !important;
 }
 
-body:not(.dark) .bg-slate-900\/40 {
-    background-color: rgba(255, 255, 255, 0.8) !important;
+/* Header & Navigation */
+body:not(.dark) header span.text-white {
+    color: #0f172a !important;
 }
 
-body:not(.dark) .bg-slate-950\/60 {
-    background-color: rgba(255, 255, 255, 0.9) !important;
+body:not(.dark) header nav a {
+    color: #475569 !important;
 }
 
-body:not(.dark) .bg-slate-950\/80 {
-    background-color: rgba(255, 255, 255, 0.95) !important;
+body:not(.dark) header nav a:hover {
+    color: #6366f1 !important;
+}
+
+body:not(.dark) .md\:hidden.absolute {
+    background: rgba(255, 255, 255, 0.96) !important;
+    border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+body:not(.dark) .md\:hidden.absolute a {
+    color: #334155 !important;
+    border-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Interactive Components & Cards */
+body:not(.dark) .glass-panel {
+    background: rgba(255, 255, 255, 0.82) !important;
+    border-color: rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.05) !important;
+}
+
+body:not(.dark) .glass-panel-light {
+    background: rgba(255, 255, 255, 0.4) !important;
+    border-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Rubro Buttons */
+body:not(.dark) button.border-white\/5 {
+    background-color: #ffffff !important;
+    border-color: rgba(0, 0, 0, 0.08) !important;
+    color: #334155 !important;
+}
+
+body:not(.dark) button.border-white\/5:hover {
+    border-color: rgba(0, 0, 0, 0.15) !important;
+    color: #0f172a !important;
+}
+
+body:not(.dark) button.border-brand-cyan {
+    background-color: rgba(6, 182, 212, 0.06) !important;
+    border-color: #06b6d4 !important;
+    color: #0891b2 !important;
+}
+
+/* Checkbox Cards for Modules */
+body:not(.dark) label[for^="mod-"] {
+    background-color: #ffffff !important;
+    border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+body:not(.dark) label[for^="mod-"]:hover {
+    border-color: rgba(6, 182, 212, 0.25) !important;
+    background-color: rgba(6, 182, 212, 0.02) !important;
+}
+
+body:not(.dark) .card-checkbox:checked + label {
+    border-color: #06b6d4 !important;
+    background-color: rgba(6, 182, 212, 0.06) !important;
+    box-shadow: 0 8px 20px -4px rgba(6, 182, 212, 0.12) !important;
+}
+
+/* Pricing Card Widget */
+body:not(.dark) .glass-panel.border-brand-cyan\/20 {
+    background-color: #ffffff !important;
+    border-color: rgba(6, 182, 212, 0.25) !important;
+    box-shadow: 0 20px 40px -15px rgba(6, 182, 212, 0.08) !important;
+}
+
+body:not(.dark) .bg-gradient-to-r.from-brand-cyan.to-brand-indigo {
+    background: linear-gradient(135deg, #06b6d4 0%, #6366f1 100%) !important;
+}
+
+body:not(.dark) .bg-gradient-to-r.from-brand-cyan.to-brand-indigo span {
+    color: #ffffff !important;
+}
+
+body:not(.dark) span[x-text="calculatedCost"] {
+    color: #0f172a !important;
+}
+
+body:not(.dark) .bg-slate-950\/40 {
+    background-color: #f8fafc !important;
+    border-color: rgba(0, 0, 0, 0.05) !important;
 }
 
 body:not(.dark) .bg-slate-900 {
     background-color: #f1f5f9 !important;
 }
 
-body:not(.dark) .bg-slate-950 {
-    background-color: #e2e8f0 !important;
+/* Badges */
+body:not(.dark) .inline-flex.items-center {
+    background-color: #f1f5f9 !important;
+    color: #475569 !important;
+    border-color: rgba(0, 0, 0, 0.06) !important;
 }
 
-body:not(.dark) .bg-slate-950\/40 {
-    background-color: #f8fafc !important;
+body:not(.dark) .inline-flex.items-center strong {
+    color: #0f172a !important;
 }
 
-body:not(.dark) .border-white\/5,
-body:not(.dark) .border-white\/10 {
-    border-color: rgba(0, 0, 0, 0.08) !important;
+/* SaaS Comparison Table */
+body:not(.dark) table {
+    background-color: #ffffff !important;
 }
 
+body:not(.dark) thead tr {
+    background-color: #f1f5f9 !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+body:not(.dark) thead th {
+    color: #1e293b !important;
+}
+
+body:not(.dark) tbody tr {
+    border-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+body:not(.dark) tbody td {
+    color: #334155 !important;
+}
+
+body:not(.dark) tbody td.bg-brand-cyan\/5 {
+    background-color: rgba(6, 182, 212, 0.02) !important;
+    border-color: rgba(0, 0, 0, 0.04) !important;
+}
+
+/* Form Inputs (Wizard) */
 body:not(.dark) .form-input-premium {
-    background: rgba(255, 255, 255, 0.9);
-    border: 1px solid rgba(0, 0, 0, 0.12);
-    color: #0f172a;
+    background-color: #ffffff !important;
+    border-color: #cbd5e1 !important;
+    color: #0f172a !important;
+}
+
+body:not(.dark) .form-input-premium::placeholder {
+    color: #94a3b8 !important;
 }
 
 body:not(.dark) .form-input-premium:focus {
-    border-color: #06b6d4;
-    box-shadow: 0 0 12px rgba(6, 182, 212, 0.15);
+    border-color: #6366f1 !important;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15) !important;
 }
 
-body:not(.dark) .bg-brand-dark/90 {
-    background-color: #f1f5f9 !important;
+body:not(.dark) span[class*="bg-slate-800"] {
+    background-color: #e2e8f0 !important;
+    color: #64748b !important;
 }
+
+body:not(.dark) .h-0\.5.bg-slate-800 {
+    background-color: #e2e8f0 !important;
+}
+
+/* FAQ Accordion */
+body:not(.dark) #faq button {
+    color: #1e293b !important;
+}
+
+body:not(.dark) #faq button:hover {
+    color: #6366f1 !important;
+}
+
+body:not(.dark) #faq div[x-show^="activeQuestion"] {
+    color: #475569 !important;
+    background-color: #f8fafc !important;
+    border-top: 1px solid rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Footer layout */
+body:not(.dark) footer {
+    background-color: #f1f5f9 !important;
+    border-color: rgba(0, 0, 0, 0.06) !important;
+}
+
+body:not(.dark) footer p,
+body:not(.dark) footer span,
+body:not(.dark) footer li,
+body:not(.dark) footer a {
+    color: #475569 !important;
+}
+
+body:not(.dark) footer a:hover {
+    color: #06b6d4 !important;
+}
+
 
 
 /* Custom Micro-Animations */
