@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO Optimization -->
+    <title>No-Code-Creator | Plataformas Digitales con IA en Lima, Perú</title>
+    <meta name="description" content="Creamos aplicaciones y plataformas web personalizadas low-code con Inteligencia Artificial para empresas y microempresas en Lima. Listas en tiempo récord y a bajo costo.">
+    <meta name="keywords" content="no-code peru, low-code lima, crear app con ia, desarrollo de software barato peru, digitalizar empresa peru, no-code-creator, plataformas digitales lima">
+    <meta name="author" content="No-Code-Creator">
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico" onerror="this.href='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>'">
+
+    <!-- Fonts and Custom CSS -->
+    <link rel="stylesheet" href="/static/css/custom.css">
+
+    <!-- Tailwind CSS (Play CDN for quick dynamic prototyping) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#020617',
+                            slate: '#0f172a',
+                            cyan: '#06b6d4',
+                            indigo: '#6366f1',
+                            amber: '#f59e0b',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Alpine.js (Core and defer for deferred initialization) -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <!-- Lucide Icons for clean visuals -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-brand-dark text-slate-100 flex flex-col min-h-screen relative antialiased selection:bg-brand-cyan selection:text-brand-dark">
+    
+    <!-- Floating Backdrops -->
+    <div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] glow-indigo -z-10 rounded-full animate-pulse-soft"></div>
+    <div class="absolute top-[40%] right-[-10%] w-[50%] h-[50%] glow-cyan -z-10 rounded-full animate-pulse-soft" style="animation-delay: 1.5s;"></div>
+    <div class="absolute bottom-[-10%] left-[20%] w-[40%] h-[40%] glow-amber -z-10 rounded-full animate-pulse-soft" style="animation-delay: 3s;"></div>
+
+    <!-- Navigation Header -->
+    <header 
+        x-data="{ 
+            mobileMenuOpen: false, 
+            isScrolled: false 
+        }" 
+        x-init="window.addEventListener('scroll', () => { isScrolled = window.scrollY > 20 })"
+        :class="isScrolled ? 'glass-panel py-3 shadow-xl border-b border-white/5' : 'bg-transparent py-5'"
+        class="fixed top-0 left-0 w-full z-50 transition-all duration-300"
+    >
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="/" class="flex items-center space-x-3 group">
+                <div class="w-12 h-12 bg-white/5 rounded-xl p-1.5 flex items-center justify-center border border-white/10 group-hover:border-brand-cyan/30 transition-colors duration-300 shadow-md">
+                    <img src="/static/images/logo.png" alt="No-Code-Creator Logo" class="w-full h-full object-contain" />
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-lg font-bold tracking-tight text-white group-hover:text-brand-cyan transition-colors duration-300">
+                        No-Code<span class="text-brand-cyan">.</span>Creator
+                    </span>
+                    <span class="text-[9px] text-slate-400 tracking-wider uppercase font-semibold leading-none">Lima - Perú</span>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation Links -->
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="/#servicios" class="text-slate-300 hover:text-white text-sm font-medium transition-colors duration-200">Servicios</a>
+                <a href="/#cotizador" class="text-slate-300 hover:text-white text-sm font-medium transition-colors duration-200">Cotizador AI</a>
+                <a href="/#prototipos" class="text-slate-300 hover:text-white text-sm font-medium transition-colors duration-200">Plataformas</a>
+                <a href="/#beneficios" class="text-slate-300 hover:text-white text-sm font-medium transition-colors duration-200">Beneficios</a>
+                <a href="/#faq" class="text-slate-300 hover:text-white text-sm font-medium transition-colors duration-200">Preguntas</a>
+            </nav>
+
+            <!-- Call to Action Button -->
+            <div class="hidden md:flex items-center space-x-4">
+                <a href="/#cotizador" class="relative group overflow-hidden px-5 py-2.5 rounded-xl font-semibold text-sm transition-all duration-300 shadow-md">
+                    <div class="absolute inset-0 w-full h-full bg-gradient-to-r from-brand-cyan to-brand-indigo transition-all duration-300 group-hover:scale-105"></div>
+                    <span class="relative text-brand-dark flex items-center gap-1.5">
+                        Iniciar Cotización
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </span>
+                </a>
+            </div>
+
+            <!-- Mobile Hamburger Button -->
+            <button 
+                @click="mobileMenuOpen = !mobileMenuOpen" 
+                class="md:hidden p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-colors focus:outline-none"
+                aria-label="Toggle menu"
+            >
+                <i x-show="!mobileMenuOpen" data-lucide="menu" class="w-6 h-6"></i>
+                <i x-show="mobileMenuOpen" data-lucide="x" class="w-6 h-6" style="display: none;"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Drawer -->
+        <div 
+            x-show="mobileMenuOpen" 
+            x-transition:enter="transition ease-out duration-200"
+            x-transition:enter-start="opacity-0 -translate-y-4"
+            x-transition:enter-end="opacity-100 translate-y-0"
+            x-transition:leave="transition ease-in duration-150"
+            x-transition:leave-start="opacity-100 translate-y-0"
+            x-transition:leave-end="opacity-0 -translate-y-4"
+            class="md:hidden absolute top-full left-0 w-full glass-panel border-b border-white/10 shadow-2xl py-6 px-4 space-y-4 flex flex-col"
+            style="display: none;"
+        >
+            <a @click="mobileMenuOpen = false" href="/#servicios" class="text-slate-300 hover:text-white py-2 text-base font-medium border-b border-white/5">Servicios</a>
+            <a @click="mobileMenuOpen = false" href="/#cotizador" class="text-slate-300 hover:text-white py-2 text-base font-medium border-b border-white/5">Cotizador AI</a>
+            <a @click="mobileMenuOpen = false" href="/#prototipos" class="text-slate-300 hover:text-white py-2 text-base font-medium border-b border-white/5">Plataformas</a>
+            <a @click="mobileMenuOpen = false" href="/#beneficios" class="text-slate-300 hover:text-white py-2 text-base font-medium border-b border-white/5">Beneficios</a>
+            <a @click="mobileMenuOpen = false" href="/#faq" class="text-slate-300 hover:text-white py-2 text-base font-medium border-b border-white/5">Preguntas</a>
+            <a @click="mobileMenuOpen = false" href="/#cotizador" class="w-full text-center py-3 bg-gradient-to-r from-brand-cyan to-brand-indigo text-brand-dark rounded-xl font-bold transition-all shadow-lg shadow-brand-cyan/20">
+                Cotizar Mi App
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow pt-24">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-brand-dark/90 border-t border-white/5 py-12 relative overflow-hidden mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10">
+            <!-- Brand -->
+            <div class="space-y-4 md:col-span-2">
+                <a href="/" class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-white/5 rounded-xl p-1.5 flex items-center justify-center border border-white/5 shadow-md">
+                        <img src="/static/images/logo.png" alt="No-Code-Creator Logo" class="w-full h-full object-contain" />
+                    </div>
+                    <span class="text-lg font-bold text-white">No-Code<span class="text-brand-cyan">.</span>Creator</span>
+                </a>
+                <p class="text-slate-400 text-sm max-w-sm">
+                    Revolucionamos la digitalización en Lima. Creamos software a la medida de tu negocio utilizando Inteligencia Artificial y tecnologías Low-Code en días, no meses.
+                </p>
+                <div class="flex items-center space-x-3 text-slate-400">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/20">
+                        📍 Hecho con ⚡ en Lima, Perú
+                    </span>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div>
+                <h4 class="text-white text-sm font-semibold tracking-wider uppercase mb-4">Compañía</h4>
+                <ul class="space-y-2 text-sm text-slate-400">
+                    <li><a href="/#servicios" class="hover:text-brand-cyan transition-colors">Servicios</a></li>
+                    <li><a href="/#cotizador" class="hover:text-brand-cyan transition-colors">Cotizador AI</a></li>
+                    <li><a href="/#prototipos" class="hover:text-brand-cyan transition-colors">Plataformas</a></li>
+                    <li><a href="/#faq" class="hover:text-brand-cyan transition-colors">Preguntas frecuentes</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact -->
+            <div>
+                <h4 class="text-white text-sm font-semibold tracking-wider uppercase mb-4">Contacto</h4>
+                <ul class="space-y-2 text-sm text-slate-400">
+                    <li class="flex items-center gap-2">
+                        <i data-lucide="mail" class="w-4 h-4 text-brand-cyan"></i>
+                        <span>no.code.creator.adm@gmail.com</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <i data-lucide="phone" class="w-4 h-4 text-brand-cyan"></i>
+                        <span>+51 960 560 064</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <i data-lucide="map-pin" class="w-4 h-4 text-brand-cyan"></i>
+                        <span>Miraflores, Lima, Perú</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-white/5 mt-8 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 relative z-10">
+            <span>&copy; 2026 No-Code-Creator. Todos los derechos reservados.</span>
+            <div class="flex space-x-6 mt-4 sm:mt-0">
+                <a href="#" class="hover:text-slate-300">Términos de servicio</a>
+                <a href="#" class="hover:text-slate-300">Política de privacidad</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Initialize Lucide Icons -->
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

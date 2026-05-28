@@ -1,0 +1,18 @@
+# Ignorar variables de entorno (Claves de Supabase y Gmail)
+.env
+
+# Ignorar base de datos local de Leads
+leads.json
+
+# Ignorar entorno virtual de Python
+.venv/
+venv/
+env/
+
+# Ignorar archivos temporales y cachés de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.DS_Store
