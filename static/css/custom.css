@@ -18,22 +18,40 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Glassmorphism Classes */
 .glass-panel {
-    background: rgba(15, 23, 42, 0.65);
+    background: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+}
+
+.dark .glass-panel {
+    background: rgba(15, 23, 42, 0.65);
     border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
 }
 
 .glass-panel-light {
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(0, 0, 0, 0.02);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.dark .glass-panel-light {
+    background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 /* Mesh Grid Background */
 .tech-grid {
     background-size: 40px 40px;
+    background-image: 
+        linear-gradient(to right, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+}
+
+.dark .tech-grid {
     background-image: 
         linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
         linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
@@ -42,18 +60,106 @@ h1, h2, h3, h4, h5, h6 {
 /* Floating Radial Glows */
 .glow-cyan {
     filter: blur(120px);
+    background: radial-gradient(circle, rgba(6, 182, 212, 0.06) 0%, transparent 70%);
+}
+
+.dark .glow-cyan {
     background: radial-gradient(circle, rgba(6, 182, 212, 0.15) 0%, transparent 70%);
 }
 
 .glow-indigo {
     filter: blur(120px);
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.06) 0%, transparent 70%);
+}
+
+.dark .glow-indigo {
     background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
 }
 
 .glow-amber {
     filter: blur(120px);
+    background: radial-gradient(circle, rgba(245, 158, 11, 0.04) 0%, transparent 70%);
+}
+
+.dark .glow-amber {
     background: radial-gradient(circle, rgba(245, 158, 11, 0.1) 0%, transparent 70%);
 }
+
+/* Adaptive styles when .dark class is NOT present on the body (Light Mode) */
+body:not(.dark) {
+    background-color: #f8fafc;
+    color: #334155;
+}
+
+body:not(.dark) h1, 
+body:not(.dark) h2, 
+body:not(.dark) h3, 
+body:not(.dark) h4, 
+body:not(.dark) h5, 
+body:not(.dark) h6 {
+    color: #0f172a !important;
+}
+
+body:not(.dark) .text-white {
+    color: #0f172a !important;
+}
+
+body:not(.dark) .text-slate-300 {
+    color: #475569 !important;
+}
+
+body:not(.dark) .text-slate-400 {
+    color: #64748b !important;
+}
+
+body:not(.dark) .text-slate-100 {
+    color: #1e293b !important;
+}
+
+body:not(.dark) .bg-slate-900\/40 {
+    background-color: rgba(255, 255, 255, 0.8) !important;
+}
+
+body:not(.dark) .bg-slate-950\/60 {
+    background-color: rgba(255, 255, 255, 0.9) !important;
+}
+
+body:not(.dark) .bg-slate-950\/80 {
+    background-color: rgba(255, 255, 255, 0.95) !important;
+}
+
+body:not(.dark) .bg-slate-900 {
+    background-color: #f1f5f9 !important;
+}
+
+body:not(.dark) .bg-slate-950 {
+    background-color: #e2e8f0 !important;
+}
+
+body:not(.dark) .bg-slate-950\/40 {
+    background-color: #f8fafc !important;
+}
+
+body:not(.dark) .border-white\/5,
+body:not(.dark) .border-white\/10 {
+    border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+body:not(.dark) .form-input-premium {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    color: #0f172a;
+}
+
+body:not(.dark) .form-input-premium:focus {
+    border-color: #06b6d4;
+    box-shadow: 0 0 12px rgba(6, 182, 212, 0.15);
+}
+
+body:not(.dark) .bg-brand-dark/90 {
+    background-color: #f1f5f9 !important;
+}
+
 
 /* Custom Micro-Animations */
 @keyframes float {
