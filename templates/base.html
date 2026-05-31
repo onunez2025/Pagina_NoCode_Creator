@@ -285,19 +285,19 @@
                 printOut('No-Code Creator — Agencia de Automatización e Inteligencia Artificial');
                 printOut('Ubicación: Miraflores, Lima, Perú');
                 printOut('Misión: Digitalizar y automatizar microempresas y corporativos en Lima');
-                printOut('        en tiempo récord (3 a 5 días) y con un 85% de ahorro en costos.');
+                printOut('        en tiempo récord (Despliegue acelerado) y con un 85% de ahorro en costos.');
             },
             servicios() {
                 printOut('Catálogo Modular de Soluciones — No-Code Creator:');
                 printOut('');
                 printOut('  ┌─ MÓDULOS DE SISTEMA ────────────────────────────────────');
-                printOut('  · Base del Sistema (Landing + Hosting) : S/ 500  (3 días)');
-                printOut('  · Ventas y Caja POS                    : S/ 400  (+1 día)');
-                printOut('  · Control de Inventario                : S/ 300  (+1 día)');
-                printOut('  · Pasarela de Pagos (Yape/Plin/Tarj)   : S/ 250  (+1 día)');
-                printOut('  · Agenda y Reservas de Citas           : S/ 200  (+1 día)');
+                printOut('  · Base del Sistema (Landing + Hosting) : S/ 500  (Velocidad récord)');
+                printOut('  · Ventas y Caja POS                    : S/ 400  (Despliegue ágil)');
+                printOut('  · Control de Inventario                : S/ 300  (Despliegue ágil)');
+                printOut('  · Pasarela de Pagos (Yape/Plin/Tarj)   : S/ 250  (Despliegue ágil)');
+                printOut('  · Agenda y Reservas de Citas           : S/ 200  (Despliegue ágil)');
                 printOut('  · Fidelización de Clientes             : S/ 150  (Inmediato)');
-                printOut('  · Asistente Financiero & Reportes AI   : S/ 350  (+1 día)');
+                printOut('  · Asistente Financiero & Reportes AI   : S/ 350  (Despliegue ágil)');
                 printOut('');
                 printInfo('tip: Escribe <strong>cotizar</strong> para iniciar el asistente visual o <strong>prospecto</strong>.');
             },
@@ -322,7 +322,7 @@
                     printInfo('  Sector comercial : ' + d.selectedRubro);
                     printInfo('  Módulos activos  : ' + JSON.stringify(d.showcasedModules));
                     printInfo('  Presupuesto      : S/ ' + d.calculatedCost);
-                    printInfo('  Días de entrega  : ' + d.calculatedDays + ' días');
+                    printInfo('  Tiempo de entrega: Velocidad acelerada (Despliegue ágil)');
                     printOut('');
                     printOut('Comandos de cotización disponibles en vivo:');
                     printInfo('  <strong>cotizar ventas</strong>     Añade/remueve módulo POS');
@@ -368,7 +368,7 @@
                         printOut('✔ Módulo añadido: <strong>' + sub + '</strong>');
                     }
                     d.recalculate();
-                    printInfo('  Nuevo presupuesto estimado: S/ ' + d.calculatedCost + ' (' + d.calculatedDays + ' días de entrega)');
+                    printInfo('  Nuevo presupuesto estimado: S/ ' + d.calculatedCost + ' (Despliegue ágil)');
                     return;
                 }
 
@@ -386,7 +386,7 @@
                         printOut('  "rubro_comercial": "' + d.selectedRubro + '",');
                         printOut('  "modulos_activos": ' + JSON.stringify(d.showcasedModules) + ',');
                         printOut('  "inversion_estimada": "S/ ' + d.calculatedCost + '",');
-                        printOut('  "dias_de_entrega": "' + d.calculatedDays + ' días"');
+                        printOut('  "tiempo_estimado": "Despliegue acelerado (Tiempo récord)"');
                         printOut('}');
                     } else {
                         // Fallback manual read
@@ -396,7 +396,7 @@
                         printOut('{');
                         printOut('  "rubro_comercial": "' + rubro + '",');
                         printOut('  "inversion_estimada": "S/ ' + cost + '",');
-                        printOut('  "dias_de_entrega": "' + days + ' días"');
+                        printOut('  "tiempo_estimado": "Despliegue acelerado (Tiempo récord)"');
                         printOut('}');
                     }
                 } catch(e) {
