@@ -842,3 +842,237 @@ code, .mono {
   -ms-overflow-style: none !important;
   scrollbar-width: none !important;
 }
+
+/* ==========================================================================
+   NoCodeOS Themes
+   ========================================================================== */
+
+/* Theme: Matrix Green */
+[data-theme="matrix-green"] {
+  --primary:      #00ff66; /* Neon Green */
+  --secondary:    #10b981; /* Emerald */
+  --bg:           #000000; /* Pure Black */
+  --text:         #33ff77; /* Green Phosphor text */
+  --card-bg:      rgba(0, 5, 2, 0.85);
+  --card-bg-hover:rgba(0, 255, 102, 0.08);
+  --card-border:  rgba(0, 255, 102, 0.2);
+  --card-border-hover: rgba(0, 255, 102, 0.6);
+  --glow-primary: 0 8px 24px rgba(0, 255, 102, 0.25);
+  --glow-primary-strong: 0 10px 32px rgba(0, 255, 102, 0.45);
+  --glow-dot:     0 0 8px rgba(0, 255, 102, 0.7);
+}
+[data-theme="matrix-green"] body, [data-theme="matrix-green"] .os-desktop {
+  background-image:
+    radial-gradient(ellipse 700px 500px at 50% -10%, rgba(0, 255, 102, 0.1), transparent 60%),
+    radial-gradient(ellipse 500px 400px at 100% 110%, rgba(16, 185, 129, 0.05), transparent 60%) !important;
+}
+
+/* Theme: Vintage Amber */
+[data-theme="vintage-amber"] {
+  --primary:      #ffb000; /* Glowing Amber */
+  --secondary:    #d97706; /* Dark Amber */
+  --bg:           #080400; /* Deep Amber Black */
+  --text:         #ffcc00; /* Amber Phosphor text */
+  --card-bg:      rgba(12, 6, 0, 0.85);
+  --card-bg-hover:rgba(255, 176, 0, 0.08);
+  --card-border:  rgba(255, 176, 0, 0.2);
+  --card-border-hover: rgba(255, 176, 0, 0.6);
+  --glow-primary: 0 8px 24px rgba(255, 176, 0, 0.25);
+  --glow-primary-strong: 0 10px 32px rgba(255, 176, 0, 0.45);
+  --glow-dot:     0 0 8px rgba(255, 176, 0, 0.7);
+}
+[data-theme="vintage-amber"] body, [data-theme="vintage-amber"] .os-desktop {
+  background-image:
+    radial-gradient(ellipse 700px 500px at 50% -10%, rgba(255, 176, 0, 0.1), transparent 60%),
+    radial-gradient(ellipse 500px 400px at 100% 110%, rgba(217, 119, 6, 0.05), transparent 60%) !important;
+}
+
+/* Theme: Dracula Neon */
+[data-theme="dracula-neon"] {
+  --primary:      #ff79c6; /* Dracula Pink */
+  --secondary:    #bd93f9; /* Dracula Purple */
+  --bg:           #1e1f29; /* Dracula Dark Violet */
+  --text:         #f8f8f2; /* Dracula Light Text */
+  --card-bg:      rgba(40, 42, 54, 0.75);
+  --card-bg-hover:rgba(255, 121, 198, 0.08);
+  --card-border:  rgba(189, 147, 249, 0.2);
+  --card-border-hover: rgba(255, 121, 198, 0.5);
+  --glow-primary: 0 8px 24px rgba(255, 121, 198, 0.25);
+  --glow-primary-strong: 0 10px 32px rgba(255, 121, 198, 0.45);
+  --glow-dot:     0 0 8px rgba(255, 121, 198, 0.7);
+}
+[data-theme="dracula-neon"] body, [data-theme="dracula-neon"] .os-desktop {
+  background-image:
+    radial-gradient(ellipse 700px 500px at 50% -10%, rgba(255, 121, 198, 0.1), transparent 60%),
+    radial-gradient(ellipse 500px 400px at 100% 110%, rgba(189, 147, 249, 0.05), transparent 60%) !important;
+}
+
+/* ==========================================================================
+   Desktop Icons & Grid (File Explorer GUI)
+   ========================================================================== */
+.desktop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  grid-auto-rows: 95px;
+  gap: 16px;
+  padding: 16px;
+  max-width: 500px;
+  user-select: none;
+}
+.desktop-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--text);
+}
+.desktop-icon:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+.desktop-icon:active {
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(0.95);
+}
+.desktop-icon__img {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: var(--primary);
+  margin-bottom: 6px;
+  font-size: 16px;
+  box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.02);
+  transition: all 0.2s ease;
+}
+.desktop-icon:hover .desktop-icon__img {
+  color: #fff;
+  border-color: var(--primary);
+  box-shadow: 0 0 10px var(--primary);
+}
+.desktop-icon__label {
+  font-weight: 600;
+  line-height: 1.2;
+  word-break: break-word;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* ==========================================================================
+   OS GUI WINDOW CONTAINER
+   ========================================================================== */
+.gui-window {
+  position: fixed;
+  background: rgba(5, 8, 22, 0.95);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--primary);
+  border-radius: 12px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 60;
+  transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.1, 0.8, 0.2, 1);
+  min-width: 280px;
+  min-height: 200px;
+}
+.gui-window.is-maximized {
+  inset: 46px 0 0 0 !important;
+  width: 100% !important;
+  height: calc(100vh - 46px) !important;
+  border-radius: 0 !important;
+  transform: none !important;
+}
+.gui-window__header {
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  height: 38px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+  cursor: move;
+  flex-shrink: 0;
+}
+.gui-window__title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.gui-window__controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.gui-window__btn {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--bg);
+  font-size: 8px;
+  font-weight: 900;
+  transition: all 0.15s ease;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text);
+}
+.gui-window__btn--close {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+}
+.gui-window__btn--close:hover {
+  background: #ef4444;
+  color: #000;
+}
+.gui-window__btn--maximize {
+  background: rgba(34, 197, 94, 0.2);
+  color: #22c55e;
+}
+.gui-window__btn--maximize:hover {
+  background: #22c55e;
+  color: #000;
+}
+.gui-window__btn--minimize {
+  background: rgba(234, 179, 8, 0.2);
+  color: #eab308;
+}
+.gui-window__btn--minimize:hover {
+  background: #eab308;
+  color: #000;
+}
+.gui-window__content {
+  flex: 1 1 auto;
+  overflow: auto;
+  padding: 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: #cbd5e1;
+}
+.gui-window__iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #020617;
+}
