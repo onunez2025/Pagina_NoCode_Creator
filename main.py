@@ -333,35 +333,37 @@ async def chat_with_gemini(chat_req: ChatRequest):
         "parts": [{"text": chat_req.message}]
     })
 
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={api_key}"
-    payload = {
-        "contents": contents,
-        "systemInstruction": {
-            "parts": [{"text": system_instruction}]
-        },
-        "generationConfig": {
-            "temperature": 0.7,
-            "maxOutputTokens": 800
-        }
-    }
-
-    try:
-        async with httpx.AsyncClient() as client:
-            response = await client.post(url, json=payload, timeout=12.0)
-            if response.status_code == 200:
-                data = response.json()
-                response_text = data['candidates'][0]['content']['parts'][0]['text']
-                return {"response": response_text}
-            else:
-                print(f"Error Gemini API (Status {response.status_code}): {response.text}")
-                return {
-                    "response": "Disculpa la interrupción. Estoy experimentando una breve latencia de conexión, pero cuéntame: ¿qué tipo de sistema o módulo digital necesitas para tu negocio hoy? Estoy aquí para orientarte."
+    models = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-2.0-flash-lite"]
+    
+    async with httpx.AsyncClient() as client:
+        for model in models:
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
+            payload = {
+                "contents": contents,
+                "systemInstruction": {
+                    "parts": [{"text": system_instruction}]
+                },
+                "generationConfig": {
+                    "temperature": 0.7,
+                    "maxOutputTokens": 800
                 }
-    except Exception as e:
-        print(f"Excepción al conectar con Gemini API: {str(e)}")
-        return {
-            "response": "¡Hola! En este momento estoy ordenando mis ideas. Cuéntame sobre tu proyecto y te guiaré con gusto sobre cómo podemos digitalizar tu negocio en Lima a velocidad récord."
-        }
+            }
+            try:
+                response = await client.post(url, json=payload, timeout=12.0)
+                if response.status_code == 200:
+                    data = response.json()
+                    response_text = data['candidates'][0]['content']['parts'][0]['text']
+                    print(f"Chatbot respondió exitosamente usando el modelo: {model}")
+                    return {"response": response_text}
+                else:
+                    print(f"Error Gemini API con modelo {model} (Status {response.status_code}): {response.text[:200]}")
+            except Exception as e:
+                print(f"Excepción al conectar con Gemini API usando {model}: {str(e)}")
+    
+    # Fallback si todos los modelos fallan por límites de cuotas o de conexión
+    return {
+        "response": "Disculpa la interrupción. Estoy experimentando una breve latencia de conexión, pero cuéntame: ¿qué tipo de sistema o módulo digital necesitas para tu negocio hoy? Estoy aquí para orientarte."
+    }
 
 if __name__ == "__main__":
     import uvicorn
