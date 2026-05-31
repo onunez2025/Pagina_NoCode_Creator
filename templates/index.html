@@ -1,246 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div x-data="{ 
-    // State shared between components
-    selectedRubro: 'Restaurante / Cafetería',
-    calculatedCost: 850,
-    calculatedDays: 4,
-    showcasedModules: ['ventas', 'inventario'],
-    calcTab: 'config',
-    aiQuery: '',
-    
-    // Window Manager Premium OS
-    openWindows: [],
-    focusedWindowId: null,
-    leadPhone: '',
-    
-    explorerHtml: `
-        <div class='grid grid-cols-2 sm:grid-cols-3 gap-4 font-mono text-[11px] text-slate-300'>
-            <div class='p-3 bg-slate-950/80 hover:bg-slate-900 border border-white/5 hover:border-brand-cyan/30 rounded-xl flex flex-col items-center justify-center cursor-pointer text-center select-none' @click="openWindow('whoami', 'Quiénes Somos.txt', 'file', whoamiHtml)">
-                <i data-lucide='file-text' class='w-8 h-8 text-brand-cyan mb-2'></i>
-                <span class='text-[10px] text-white font-bold'>quienes_somos.txt</span>
-            </div>
-            <div class='p-3 bg-slate-950/80 hover:bg-slate-900 border border-white/5 hover:border-brand-cyan/30 rounded-xl flex flex-col items-center justify-center cursor-pointer text-center select-none' @click="openWindow('modules-json', 'módulos.json', 'file', modulesJsonHtml)">
-                <i data-lucide='file-code' class='w-8 h-8 text-brand-indigo mb-2'></i>
-                <span class='text-[10px] text-white font-bold'>módulos.json</span>
-            </div>
-            <div class='p-3 bg-slate-950/80 hover:bg-slate-900 border border-white/5 hover:border-brand-cyan/30 rounded-xl flex flex-col items-center justify-center cursor-pointer text-center select-none' @click="openWindow('tracker', 'Rastreador de Proyectos', 'widget', getTrackerHtml())">
-                <i data-lucide='search-code' class='w-8 h-8 text-emerald-400 mb-2'></i>
-                <span class='text-[10px] text-white font-bold'>rastreador.exe</span>
-            </div>
-        </div>
-    `,
-    
-    whoamiHtml: `
-        <div class='space-y-4 font-mono text-[11px] text-slate-300'>
-            <div class='flex items-center gap-3 border-b border-white/5 pb-2'>
-                <span class='w-2 h-2 rounded-full bg-brand-cyan animate-pulse'></span>
-                <strong class='text-white uppercase tracking-wider'>NCC_IDENTITY.TXT - BLOC DE NOTAS</strong>
-            </div>
-            <p><strong>Identidad:</strong> No-Code Creator — Agencia de Automatización e Inteligencia Artificial.</p>
-            <p><strong>Ubicación:</strong> Miraflores, Lima, Perú.</p>
-            <p><strong>Misión:</strong> Digitalizar y automatizar microempresas locales en tiempo récord sin retrasos innecesarios ni códigos ocultos, con un 85% de ahorro en costos directos.</p>
-            <p><strong>Enfoque Estratégico:</strong> Potenciamos la autogestión corporativa. Diseñamos sistemas limpios sobre los que eres dueño absoluto (100% tuyo), conectando cobros locales rápidos (Yape, Plin) y facturación local peruana.</p>
-            <p class='text-slate-500 pt-4'>* Generado de forma dinámica por NoCodeOS en Lima, Perú.</p>
-        </div>
-    `,
-    
-    modulesJsonHtml: `
-        <div class='space-y-4 font-mono text-[11px] text-slate-300'>
-            <div class='flex items-center justify-between border-b border-white/5 pb-2'>
-                <strong class='text-brand-cyan uppercase tracking-wider'>catalog.json</strong>
-                <span class='text-slate-500 text-[9px]'>READ-ONLY</span>
-            </div>
-            <pre class='bg-slate-950 p-3 rounded-lg border border-white/5 text-emerald-400 overflow-x-auto text-[10px] leading-relaxed'>
-{
-  &quot;agency&quot;: &quot;No-Code Creator&quot;,
-  &quot;location&quot;: &quot;Miraflores, Lima&quot;,
-  &quot;base_system&quot;: {
-    &quot;module&quot;: &quot;Landing + Hosting Cloud&quot;,
-    &quot;base_cost&quot;: &quot;S/ 500&quot;,
-    &quot;delivery&quot;: &quot;Velocidad Récord&quot;
-  },
-  &quot;modules_available&quot;: [
-    { &quot;id&quot;: &quot;ventas&quot;, &quot;cost&quot;: 400, &quot;delivery&quot;: &quot;Despliegue ágil&quot; },
-    { &quot;id&quot;: &quot;inventario&quot;, &quot;cost&quot;: 300, &quot;delivery&quot;: &quot;Despliegue ágil&quot; },
-    { &quot;id&quot;: &quot;pagos&quot;, &quot;cost&quot;: 250, &quot;delivery&quot;: &quot;Despliegue ágil&quot; },
-    { &quot;id&quot;: &quot;citas&quot;, &quot;cost&quot;: 200, &quot;delivery&quot;: &quot;Despliegue ágil&quot; },
-    { &quot;id&quot;: &quot;clientes&quot;, &quot;cost&quot;: 150, &quot;delivery&quot;: &quot;Inmediato&quot; },
-    { &quot;id&quot;: &quot;ia&quot;, &quot;cost&quot;: 350, &quot;delivery&quot;: &quot;Despliegue ágil&quot; }
-  ]
-}
-            </pre>
-        </div>
-    `,
-    
-    getTrackerHtml() {
-        const phone = this.leadPhone || '';
-        return `
-            <div class='space-y-4 font-mono text-[11px] text-slate-300'>
-                <div class='flex items-center gap-2 border-b border-white/5 pb-2'>
-                    <span class='w-2 h-2 rounded-full bg-emerald-400 animate-pulse'></span>
-                    <strong class='text-white uppercase tracking-wider'>RASTREADOR DE PROYECTO (rastreador.exe)</strong>
-                </div>
-                <p class='text-slate-400'>Consulta el estado en vivo de tu ticket de WhatsApp (+51) para ver logs de compilación:</p>
-                <div class='flex gap-2 my-2'>
-                    <input type='text' id='gui-track-phone' placeholder='Ej. 960560064' value='${phone}' class='flex-1 bg-slate-950 border border-white/10 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-brand-cyan font-mono' />
-                    <button type='button' onclick='runGuiTracker()' class='bg-brand-cyan hover:bg-brand-cyan/85 text-brand-dark px-4 py-2 rounded-xl text-xs font-bold font-mono'>RASTREAR</button>
-                </div>
-                <div id='gui-tracker-output' class='bg-slate-950 border border-white/5 rounded-xl p-4 min-h-[120px] text-[9px] leading-relaxed text-slate-400 font-mono'>
-                    Esperando identificador de ticket o celular para realizar consulta...
-                </div>
-            </div>
-        `;
-    },
-
-    openWindow(id, title, type, contentHtml = '', iframeUrl = '') {
-        let win = this.openWindows.find(w => w.id === id);
-        if (!win) {
-            const isMobile = window.innerWidth < 640;
-            win = {
-                id: id,
-                title: title,
-                type: type,
-                isOpen: true,
-                isMaximized: isMobile,
-                x: isMobile ? 0 : (100 + this.openWindows.length * 35),
-                y: isMobile ? 0 : (80 + this.openWindows.length * 28),
-                width: isMobile ? window.innerWidth : 560,
-                height: isMobile ? (window.innerHeight - 46) : 380,
-                contentHtml: contentHtml,
-                iframeUrl: iframeUrl,
-                zIndex: 60
-            };
-            this.openWindows.push(win);
-        } else {
-            win.isOpen = true;
-        }
-        this.focusWindow(id);
-        if (window.playSynthSound) window.playSynthSound('click');
-    },
-
-    focusWindow(id) {
-        this.focusedWindowId = id;
-        let maxZ = 60;
-        this.openWindows.forEach(w => {
-            if (w.zIndex > maxZ) maxZ = w.zIndex;
-        });
-        const win = this.openWindows.find(w => w.id === id);
-        if (win) {
-            win.zIndex = maxZ + 1;
-        }
-    },
-
-    closeWindow(id) {
-        this.openWindows = this.openWindows.filter(w => w.id !== id);
-        if (this.focusedWindowId === id) {
-            this.focusedWindowId = this.openWindows.length > 0 ? this.openWindows[this.openWindows.length - 1].id : null;
-        }
-        if (window.playSynthSound) window.playSynthSound('click');
-    },
-
-    toggleMaximizeWindow(id) {
-        const win = this.openWindows.find(w => w.id === id);
-        if (win) {
-            win.isMaximized = !win.isMaximized;
-        }
-        if (window.playSynthSound) window.playSynthSound('click');
-    },
-
-    // Sync calculator to wizard
-    syncCalculatorToWizard() {
-        document.getElementById('leads-wizard').scrollIntoView({ behavior: 'smooth' });
-    },
-
-    recommendModules() {
-        const q = this.aiQuery.toLowerCase();
-        let msg = '';
-        
-        // Reset modules
-        this.showcasedModules = [];
-        
-        if (q.includes('restaurant') || q.includes('polleria') || q.includes('comida') || q.includes('cafe') || q.includes('menu') || q.includes('mesa') || q.includes('carta')) {
-            this.selectedRubro = 'Restaurante / Cafetería';
-            this.showcasedModules.push('ventas', 'pagos');
-            msg = 'Analizado: Rubro Restaurante detectado. Activado POS + Integración Yape/Plin.';
-        } else if (q.includes('tienda') || q.includes('bodega') || q.includes('market') || q.includes('minimarket') || q.includes('ropa') || q.includes('inventario') || q.includes('compras') || q.includes('stock')) {
-            this.selectedRubro = 'Bodega / Minimarket / Distribuidora';
-            this.showcasedModules.push('ventas', 'inventario', 'pagos');
-            msg = 'Analizado: Rubro Comercial detectado. Activado POS + Inventario + Pasarela Yape/Plin.';
-        } else if (q.includes('cita') || q.includes('reserva') || q.includes('clinica') || q.includes('consultorio') || q.includes('doctor') || q.includes('medico') || q.includes('agenda')) {
-            this.selectedRubro = 'Clínica / Consultorio';
-            this.showcasedModules.push('citas', 'clientes');
-            msg = 'Analizado: Rubro Citas/Consultorios detectado. Activado Agenda Reservas + Fidelización Puntos.';
-        } else if (q.includes('servicio') || q.includes('asesor') || q.includes('consultor') || q.includes('profesional') || q.includes('empresa')) {
-            this.selectedRubro = 'Servicios Profesionales / Consultoría';
-            this.showcasedModules.push('citas', 'ia');
-            msg = 'Analizado: Rubro Servicios Profesionales. Activado Citas + Asistente de Reportes AI.';
-        } else if (q.includes('ecommerce') || q.includes('virtual') || q.includes('carrito') || q.includes('web') || q.includes('pagar') || q.includes('online')) {
-            this.selectedRubro = 'E-commerce / Tienda Virtual';
-            this.showcasedModules.push('ventas', 'inventario', 'pagos', 'ia');
-            msg = 'Analizado: Rubro E-commerce detectado. Activado Catálogo Web + Inventario + Pasarelas + Reportes AI.';
-        } else {
-            this.selectedRubro = 'Restaurante / Cafetería';
-            this.showcasedModules.push('ventas');
-            msg = 'Requerimiento general interpretado. Activado módulo base de Ventas POS.';
-        }
-        
-        this.recalculate();
-        
-        const el = document.getElementById('ai-recommender-msg');
-        if (el) {
-            el.innerHTML = '<span class=\'text-brand-cyan animate-pulse font-bold\'>⚡ ' + msg + '</span>';
-        }
-    },
-
-    downloadBlueprint() {
-        let content = `# ESPECIFICACIÓN TÉCNICA - NoCodeCreatorOS\n\n`;
-        content += `## 1. RESUMEN DEL PROYECTO\n`;
-        content += `* **Rubro Comercial:** ${this.selectedRubro}\n`;
-        content += `* **Inversión Estimada:** S/ ${this.calculatedCost}\n`;
-        content += `* **Tiempo de Despliegue:** Fracción del tiempo de agencias tradicionales (Acelerado)\n\n`;
-        content += `## 2. ARQUITECTURA DE SISTEMA SUGERIDA\n`;
-        content += `* **Frontend:** Tailwind CSS + Alpine.js (Estructura interactiva móvil adaptativa)\n`;
-        content += `* **Base de Datos:** PostgreSQL en la nube (Supabase Cloud)\n`;
-        content += `* **Módulos Seleccionados:**\n`;
-        
-        this.modulesList.forEach(mod => {
-            if (this.showcasedModules.includes(mod.id)) {
-                content += `  - ${mod.name}: ${mod.desc} (+S/ ${mod.cost})\n`;
-            }
-        });
-        
-        content += `\n## 3. ESTIMACIÓN DE RETORNO (ROI)\n`;
-        if (this.showcasedModules.includes('ventas') && this.showcasedModules.includes('inventario')) {
-            content += `* **ROI:** Recuperación estimada de inversión en menos de 45 días mediante la reducción de pérdidas de mercadería y automatización de reportes de caja diario.\n`;
-        } else if (this.showcasedModules.includes('citas')) {
-            content += `* **ROI:** Recuperación estimada en menos de 30 días al mitigar ausencias mediante recordatorios automáticos por WhatsApp Business.\n`;
-        } else {
-            content += `* **ROI:** Recuperación en menos de 60 días al digitalizar las operaciones manuales básicas del negocio.\n`;
-        }
-        
-        content += `\n## 4. SOPORTE Y HOSTING\n`;
-        content += `* Incluye el primer mes de hosting cloud gratuito.\n`;
-        content += `* Soporte técnico local por WhatsApp garantizado durante los primeros 90 días en Lima, Perú.\n\n`;
-        content += `*Generado automáticamente por NoCodeCreatorOS AI Engine en Lima.*`;
-
-        const blob = new Blob([content.replace(/\\n/g, '\n')], { type: 'text/markdown' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `blueprint_${this.selectedRubro.toLowerCase().replace(/[^a-z0-9]/g, '_')}.md`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-    },
-
-    getWhatsAppLink() {
-        const text = `Hola No-Code-Creator, acabo de cotizar mi plataforma de ${this.selectedRubro} en su portal web. Mi presupuesto estimado es de S/ ${this.calculatedCost} (Despliegue Acelerado) con los siguientes módulos activos: ${this.showcasedModules.join(', ')}. Deseo agendar una sesión.`;
-        return `https://wa.me/51960560064?text=${encodeURIComponent(text)}`;
-    }
-}">
+<div x-data="noCodeOSState">
 
     <!-- ==================== ── █ VIRTUAL DESKTOP WORKSPACE (EXPLORER & WINDOWS) ── ==================== -->
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 relative z-30 select-none">
@@ -600,53 +361,7 @@
         </div>
 
         <!-- Calculator engine integration -->
-        <div 
-            x-data="{
-                rubroMultipliers: {
-                    'Restaurante / Cafetería': 1.0,
-                    'Bodega / Minimarket / Distribuidora': 1.1,
-                    'Clínica / Consultorio': 1.2,
-                    'Servicios Profesionales / Consultoría': 0.9,
-                    'E-commerce / Tienda Virtual': 1.3
-                },
-                modulesList: [
-                    { id: 'ventas', name: 'Sistema de Ventas y POS', cost: 400, days: 1, desc: 'Gestión de caja, tickets de venta y reportes diarios.' },
-                    { id: 'inventario', name: 'Control de Inventario', cost: 300, days: 1, desc: 'Catálogo de stock automático y alertas de reabastecimiento.' },
-                    { id: 'pagos', name: 'Pasarela Yape / Plin / Tarjetas', cost: 250, days: 1, desc: 'Integración para validación de cobros inmediatos.' },
-                    { id: 'citas', name: 'Reservas y Gestor de Citas', cost: 200, days: 1, desc: 'Calendario autogestionable y confirmaciones por WhatsApp.' },
-                    { id: 'clientes', name: 'Fidelización y Puntos', cost: 150, days: 0, desc: 'Sistema de base de clientes y cupones de descuento.' },
-                    { id: 'ia', name: 'Asistente de Reportes AI', cost: 350, days: 1, desc: 'Análisis de ventas interactivo con IA sugerencias comerciales.' }
-                ],
-                
-                init() {
-                    this.recalculate();
-                },
-                
-                recalculate() {
-                    let basePrice = 500;
-                    let baseDays = 3;
-                    let extraCost = 0;
-                    let extraDays = 0;
-                    
-                    this.modulesList.forEach(mod => {
-                        if (showcasedModules.includes(mod.id)) {
-                            extraCost += mod.cost;
-                            extraDays += mod.days;
-                        }
-                    });
-                    
-                    let multiplier = this.rubroMultipliers[selectedRubro] || 1.0;
-                    calculatedCost = Math.round((basePrice + extraCost) * multiplier);
-                    calculatedDays = baseDays + extraDays;
-
-                    // Sync variables to window for terminal modal access
-                    window.selectedRubro = selectedRubro;
-                    window.calculatedCost = calculatedCost;
-                    window.calculatedDays = calculatedDays;
-                }
-            }"
-            class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start"
-        >
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             <!-- Left panel: config inputs -->
             <div 
                 :class="calcTab === 'config' ? 'block' : 'hidden lg:block'"
@@ -1601,6 +1316,298 @@
 </div>
 
 <script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('noCodeOSState', () => ({
+            // State shared between components
+            selectedRubro: 'Restaurante / Cafetería',
+            calculatedCost: 850,
+            calculatedDays: 4,
+            showcasedModules: ['ventas', 'inventario'],
+            calcTab: 'config',
+            aiQuery: '',
+            
+            // Window Manager Premium OS
+            openWindows: [],
+            focusedWindowId: null,
+            leadPhone: '',
+            
+            explorerHtml: `
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 font-mono text-[11px] text-slate-300">
+                    <div class="p-3 bg-slate-950/80 hover:bg-slate-900 border border-white/5 hover:border-brand-cyan/30 rounded-xl flex flex-col items-center justify-center cursor-pointer text-center select-none" @click="openWindow('whoami', 'Quiénes Somos.txt', 'file', whoamiHtml)">
+                        <i data-lucide="file-text" class="w-8 h-8 text-brand-cyan mb-2"></i>
+                        <span class="text-[10px] text-white font-bold">quienes_somos.txt</span>
+                    </div>
+                    <div class="p-3 bg-slate-950/80 hover:bg-slate-900 border border-white/5 hover:border-brand-cyan/30 rounded-xl flex flex-col items-center justify-center cursor-pointer text-center select-none" @click="openWindow('modules-json', 'módulos.json', 'file', modulesJsonHtml)">
+                        <i data-lucide="file-code" class="w-8 h-8 text-brand-indigo mb-2"></i>
+                        <span class="text-[10px] text-white font-bold">módulos.json</span>
+                    </div>
+                    <div class="p-3 bg-slate-950/80 hover:bg-slate-900 border border-white/5 hover:border-brand-cyan/30 rounded-xl flex flex-col items-center justify-center cursor-pointer text-center select-none" @click="openWindow('tracker', 'Rastreador de Proyectos', 'widget', getTrackerHtml())">
+                        <i data-lucide="search-code" class="w-8 h-8 text-emerald-400 mb-2"></i>
+                        <span class="text-[10px] text-white font-bold">rastreador.exe</span>
+                    </div>
+                </div>
+            `,
+            
+            whoamiHtml: `
+                <div class="space-y-4 font-mono text-[11px] text-slate-300">
+                    <div class="flex items-center gap-3 border-b border-white/5 pb-2">
+                        <span class="w-2 h-2 rounded-full bg-brand-cyan animate-pulse"></span>
+                        <strong class="text-white uppercase tracking-wider">NCC_IDENTITY.TXT - BLOC DE NOTAS</strong>
+                    </div>
+                    <p><strong>Identidad:</strong> No-Code Creator — Agencia de Automatización e Inteligencia Artificial.</p>
+                    <p><strong>Ubicación:</strong> Miraflores, Lima, Perú.</p>
+                    <p><strong>Misión:</strong> Digitalizar y automatizar microempresas locales en tiempo récord sin retrasos innecesarios ni códigos ocultos, con un 85% de ahorro en costos directos.</p>
+                    <p><strong>Enfoque Estratégico:</strong> Potenciamos la autogestión corporativa. Diseñamos sistemas limpios sobre los que eres dueño absoluto (100% tuyo), conectando cobros locales rápidos (Yape, Plin) y facturación local peruana.</p>
+                    <p class="text-slate-500 pt-4">* Generado de forma dinámica por NoCodeOS en Lima, Perú.</p>
+                </div>
+            `,
+            
+            modulesJsonHtml: `
+                <div class="space-y-4 font-mono text-[11px] text-slate-300">
+                    <div class="flex items-center justify-between border-b border-white/5 pb-2">
+                        <strong class="text-brand-cyan uppercase tracking-wider">catalog.json</strong>
+                        <span class="text-slate-500 text-[9px]">READ-ONLY</span>
+                    </div>
+                    <pre class="bg-slate-950 p-3 rounded-lg border border-white/5 text-emerald-400 overflow-x-auto text-[10px] leading-relaxed">
+{
+  "agency": "No-Code Creator",
+  "location": "Miraflores, Lima",
+  "base_system": {
+    "module": "Landing + Hosting Cloud",
+    "base_cost": "S/ 500",
+    "delivery": "Velocidad Récord"
+  },
+  "modules_available": [
+    { "id": "ventas", "cost": 400, "delivery": "Despliegue ágil" },
+    { "id": "inventario", "cost": 300, "delivery": "Despliegue ágil" },
+    { "id": "pagos", "cost": 250, "delivery": "Despliegue ágil" },
+    { "id": "citas", "cost": 200, "delivery": "Despliegue ágil" },
+    { "id": "clientes", "cost": 150, "delivery": "Inmediato" },
+    { "id": "ia", "cost": 350, "delivery": "Despliegue ágil" }
+  ]
+}
+                    </pre>
+                </div>
+            `,
+            
+            getTrackerHtml() {
+                const phone = this.leadPhone || '';
+                return `
+                    <div class="space-y-4 font-mono text-[11px] text-slate-300">
+                        <div class="flex items-center gap-2 border-b border-white/5 pb-2">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                            <strong class="text-white uppercase tracking-wider">RASTREADOR DE PROYECTO (rastreador.exe)</strong>
+                        </div>
+                        <p class="text-slate-400">Consulta el estado en vivo de tu ticket de WhatsApp (+51) para ver logs de compilación:</p>
+                        <div class="flex gap-2 my-2">
+                            <input type="text" id="gui-track-phone" placeholder="Ej. 960560064" value="${phone}" class="flex-1 bg-slate-950 border border-white/10 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-brand-cyan font-mono" />
+                            <button type="button" onclick="runGuiTracker()" class="bg-brand-cyan hover:bg-brand-cyan/85 text-brand-dark px-4 py-2 rounded-xl text-xs font-bold font-mono">RASTREAR</button>
+                        </div>
+                        <div id="gui-tracker-output" class="bg-slate-950 border border-white/5 rounded-xl p-4 min-h-[120px] text-[9px] leading-relaxed text-slate-400 font-mono">
+                            Esperando identificador de ticket o celular para realizar consulta...
+                        </div>
+                    </div>
+                `;
+            },
+
+            openWindow(id, title, type, contentHtml = '', iframeUrl = '') {
+                let win = this.openWindows.find(w => w.id === id);
+                if (!win) {
+                    const isMobile = window.innerWidth < 640;
+                    win = {
+                        id: id,
+                        title: title,
+                        type: type,
+                        isOpen: true,
+                        isMaximized: isMobile,
+                        x: isMobile ? 0 : (100 + this.openWindows.length * 35),
+                        y: isMobile ? 0 : (80 + this.openWindows.length * 28),
+                        width: isMobile ? window.innerWidth : 560,
+                        height: isMobile ? (window.innerHeight - 46) : 380,
+                        contentHtml: contentHtml,
+                        iframeUrl: iframeUrl,
+                        zIndex: 60
+                    };
+                    this.openWindows.push(win);
+                } else {
+                    win.isOpen = true;
+                }
+                this.focusWindow(id);
+                if (window.playSynthSound) window.playSynthSound('click');
+            },
+
+            focusWindow(id) {
+                this.focusedWindowId = id;
+                let maxZ = 60;
+                this.openWindows.forEach(w => {
+                    if (w.zIndex > maxZ) maxZ = w.zIndex;
+                });
+                const win = this.openWindows.find(w => w.id === id);
+                if (win) {
+                    win.zIndex = maxZ + 1;
+                }
+                
+                // Active Lucide rendering on DOM update tick
+                this.$nextTick(() => {
+                    if (window.lucide) window.lucide.createIcons();
+                });
+            },
+
+            closeWindow(id) {
+                this.openWindows = this.openWindows.filter(w => w.id !== id);
+                if (this.focusedWindowId === id) {
+                    this.focusedWindowId = this.openWindows.length > 0 ? this.openWindows[this.openWindows.length - 1].id : null;
+                }
+                if (window.playSynthSound) window.playSynthSound('click');
+            },
+
+            toggleMaximizeWindow(id) {
+                const win = this.openWindows.find(w => w.id === id);
+                if (win) {
+                    win.isMaximized = !win.isMaximized;
+                }
+                if (window.playSynthSound) window.playSynthSound('click');
+            },
+
+            // Sync calculator to wizard
+            syncCalculatorToWizard() {
+                document.getElementById('leads-wizard').scrollIntoView({ behavior: 'smooth' });
+            },
+
+            recommendModules() {
+                const q = this.aiQuery.toLowerCase();
+                let msg = '';
+                
+                // Reset modules
+                this.showcasedModules = [];
+                
+                if (q.includes('restaurant') || q.includes('polleria') || q.includes('comida') || q.includes('cafe') || q.includes('menu') || q.includes('mesa') || q.includes('carta')) {
+                    this.selectedRubro = 'Restaurante / Cafetería';
+                    this.showcasedModules.push('ventas', 'pagos');
+                    msg = 'Analizado: Rubro Restaurante detectado. Activado POS + Integración Yape/Plin.';
+                } else if (q.includes('tienda') || q.includes('bodega') || q.includes('market') || q.includes('minimarket') || q.includes('ropa') || q.includes('inventario') || q.includes('compras') || q.includes('stock')) {
+                    this.selectedRubro = 'Bodega / Minimarket / Distribuidora';
+                    this.showcasedModules.push('ventas', 'inventario', 'pagos');
+                    msg = 'Analizado: Rubro Comercial detectado. Activado POS + Inventario + Pasarela Yape/Plin.';
+                } else if (q.includes('cita') || q.includes('reserva') || q.includes('clinica') || q.includes('consultorio') || q.includes('doctor') || q.includes('medico') || q.includes('agenda')) {
+                    this.selectedRubro = 'Clínica / Consultorio';
+                    this.showcasedModules.push('citas', 'clientes');
+                    msg = 'Analizado: Rubro Citas/Consultorios detectado. Activado Agenda Reservas + Fidelización Puntos.';
+                } else if (q.includes('servicio') || q.includes('asesor') || q.includes('consultor') || q.includes('profesional') || q.includes('empresa')) {
+                    this.selectedRubro = 'Servicios Profesionales / Consultoría';
+                    this.showcasedModules.push('citas', 'ia');
+                    msg = 'Analizado: Rubro Servicios Profesionales. Activado Citas + Asistente de Reportes AI.';
+                } else if (q.includes('ecommerce') || q.includes('virtual') || q.includes('carrito') || q.includes('web') || q.includes('pagar') || q.includes('online')) {
+                    this.selectedRubro = 'E-commerce / Tienda Virtual';
+                    this.showcasedModules.push('ventas', 'inventario', 'pagos', 'ia');
+                    msg = 'Analizado: Rubro E-commerce detectado. Activado Catálogo Web + Inventario + Pasarelas + Reportes AI.';
+                } else {
+                    this.selectedRubro = 'Restaurante / Cafetería';
+                    this.showcasedModules.push('ventas');
+                    msg = 'Requerimiento general interpretado. Activado módulo base de Ventas POS.';
+                }
+                
+                this.recalculate();
+                
+                const el = document.getElementById('ai-recommender-msg');
+                if (el) {
+                    el.innerHTML = '<span class="text-brand-cyan animate-pulse font-bold">⚡ ' + msg + '</span>';
+                }
+            },
+
+            downloadBlueprint() {
+                let content = `# ESPECIFICACIÓN TÉCNICA - NoCodeCreatorOS\n\n`;
+                content += `## 1. RESUMEN DEL PROYECTO\n`;
+                content += `* **Rubro Comercial:** ${this.selectedRubro}\n`;
+                content += `* **Inversión Estimada:** S/ ${this.calculatedCost}\n`;
+                content += `* **Tiempo de Despliegue:** Fracción del tiempo de agencias tradicionales (Acelerado)\n\n`;
+                content += `## 2. ARQUITECTURA DE SISTEMA SUGERIDA\n`;
+                content += `* **Frontend:** Tailwind CSS + Alpine.js (Estructura interactiva móvil adaptativa)\n`;
+                content += `* **Base de Datos:** PostgreSQL en la nube (Supabase Cloud)\n`;
+                content += `* **Módulos Seleccionados:**\n`;
+                
+                this.modulesList.forEach(mod => {
+                    if (this.showcasedModules.includes(mod.id)) {
+                        content += `  - ${mod.name}: ${mod.desc} (+S/ ${mod.cost})\n`;
+                    }
+                });
+                
+                content += `\n## 3. ESTIMACIÓN DE RETORNO (ROI)\n`;
+                if (this.showcasedModules.includes('ventas') && this.showcasedModules.includes('inventario')) {
+                    content += `* **ROI:** Recuperación estimada de inversión en menos de 45 días mediante la reducción de pérdidas de mercadería y automatización de reportes de caja diario.\n`;
+                } else if (this.showcasedModules.includes('citas')) {
+                    content += `* **ROI:** Recuperación estimada en menos de 30 días al mitigar ausencias mediante recordatorios automáticos por WhatsApp Business.\n`;
+                } else {
+                    content += `* **ROI:** Recuperación en menos de 60 días al digitalizar las operaciones manuales básicas del negocio.\n`;
+                }
+                
+                content += `\n## 4. SOPORTE Y HOSTING\n`;
+                content += `* Incluye el primer mes de hosting cloud gratuito.\n`;
+                content += `* Soporte técnico local por WhatsApp garantizado durante los primeros 90 días en Lima, Perú.\n\n`;
+                content += `*Generado automáticamente por NoCodeCreatorOS AI Engine en Lima.*`;
+
+                const blob = new Blob([content.replace(/\n/g, '\n')], { type: 'text/markdown' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `blueprint_${this.selectedRubro.toLowerCase().replace(/[^a-z0-9]/g, '_')}.md`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            },
+
+            getWhatsAppLink() {
+                const text = `Hola No-Code-Creator, acabo de cotizar mi plataforma de ${this.selectedRubro} en su portal web. Mi presupuesto estimado es de S/ ${this.calculatedCost} (Despliegue Acelerado) con los siguientes módulos activos: ${this.showcasedModules.join(', ')}. Deseo agendar una sesión.`;
+                return `https://wa.me/51960560064?text=${encodeURIComponent(text)}`;
+            },
+
+            // Calculator Properties
+            rubroMultipliers: {
+                'Restaurante / Cafetería': 1.0,
+                'Bodega / Minimarket / Distribuidora': 1.1,
+                'Clínica / Consultorio': 1.2,
+                'Servicios Profesionales / Consultoría': 0.9,
+                'E-commerce / Tienda Virtual': 1.3
+            },
+            modulesList: [
+                { id: 'ventas', name: 'Sistema de Ventas y POS', cost: 400, days: 1, desc: 'Gestión de caja, tickets de venta y reportes diarios.' },
+                { id: 'inventario', name: 'Control de Inventario', cost: 300, days: 1, desc: 'Catálogo de stock automático y alertas de reabastecimiento.' },
+                { id: 'pagos', name: 'Pasarela Yape / Plin / Tarjetas', cost: 250, days: 1, desc: 'Integración para validación de cobros inmediatos.' },
+                { id: 'citas', name: 'Reservas y Gestor de Citas', cost: 200, days: 1, desc: 'Calendario autogestionable y confirmaciones por WhatsApp.' },
+                { id: 'clientes', name: 'Fidelización y Puntos', cost: 150, days: 0, desc: 'Sistema de base de clientes y cupones de descuento.' },
+                { id: 'ia', name: 'Asistente de Reportes AI', cost: 350, days: 1, desc: 'Análisis de ventas interactivo con IA sugerencias comerciales.' }
+            ],
+            
+            init() {
+                this.recalculate();
+            },
+            
+            recalculate() {
+                let basePrice = 500;
+                let baseDays = 3;
+                let extraCost = 0;
+                let extraDays = 0;
+                
+                this.modulesList.forEach(mod => {
+                    if (this.showcasedModules.includes(mod.id)) {
+                        extraCost += mod.cost;
+                        extraDays += mod.days;
+                    }
+                });
+                
+                let multiplier = this.rubroMultipliers[this.selectedRubro] || 1.0;
+                this.calculatedCost = Math.round((basePrice + extraCost) * multiplier);
+                this.calculatedDays = baseDays + extraDays;
+
+                // Sync variables to window for terminal modal access
+                window.selectedRubro = this.selectedRubro;
+                window.calculatedCost = this.calculatedCost;
+                window.calculatedDays = this.calculatedDays;
+            }
+        }));
+    });
+
     window.runGuiTracker = function() {
         const val = document.getElementById('gui-track-phone').value;
         const out = document.getElementById('gui-tracker-output');
