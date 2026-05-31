@@ -575,9 +575,7 @@ code, .mono {
   gap: 6px;
 }
 .os-topbar__brand::before {
-  content: '▲';
-  color: var(--primary);
-  font-size: 11px;
+  content: none;
 }
 .os-topbar__brand:hover {
   color: var(--primary);
