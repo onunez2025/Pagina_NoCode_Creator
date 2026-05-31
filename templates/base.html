@@ -272,7 +272,7 @@
                 printInfo('  <strong>whoami</strong>         Identidad de No-Code Creator');
                 printInfo('  <strong>servicios</strong>      Catálogo de módulos de software y precios');
                 printInfo('  <strong>casos</strong>          Casos de éxito y prototipos activos');
-                printInfo('  <strong>cotizar</strong>        Instrucciones para cotizar tu app');
+                printInfo('  <strong>cotizar</strong>        [INTERACTIVO] Modifica la calculadora visual en vivo');
                 printInfo('  <strong>prospecto</strong>      [DINÁMICO] Genera JSON con tu cotización de la página');
                 printInfo('  <strong>yape</strong>           Información de cobros con Yape/Plin/Factura');
                 printInfo('  <strong>contacto</strong>       Canales de comunicación directa y soporte');
@@ -308,11 +308,72 @@
                 printOut('  · Consultorio / Citas     : Reservas 24/7 y recordatorios por WhatsApp');
                 printInfo('tip: Todos los prototipos se cargan en la sección /PLATAFORMAS en la web.');
             },
-            cotizar() {
-                printOut('¿Listo para crear tu app?');
-                printOut('Usa nuestro Cotizador AI interactivo en la sección principal del sitio.');
-                printOut('Selecciona tu rubro y marca los módulos que tu negocio necesita.');
-                printOut('¡La estimación se calcula en tiempo real y puedes enviarla de inmediato!');
+            cotizar(args) {
+                const sub = (args[0] || '').toLowerCase();
+                const el = document.querySelector('[x-data]');
+                if (!el || !el.__x || !el.__x.$data) {
+                    printErr('Error: No se pudo conectar al motor de la calculadora visual.');
+                    return;
+                }
+                const d = el.__x.$data;
+
+                if (!sub) {
+                    printOut('Cotización actual de la sesión:');
+                    printInfo('  Sector comercial : ' + d.selectedRubro);
+                    printInfo('  Módulos activos  : ' + JSON.stringify(d.showcasedModules));
+                    printInfo('  Presupuesto      : S/ ' + d.calculatedCost);
+                    printInfo('  Días de entrega  : ' + d.calculatedDays + ' días');
+                    printOut('');
+                    printOut('Comandos de cotización disponibles en vivo:');
+                    printInfo('  <strong>cotizar ventas</strong>     Añade/remueve módulo POS');
+                    printInfo('  <strong>cotizar inventario</strong> Añade/remueve módulo de Stock');
+                    printInfo('  <strong>cotizar pagos</strong>      Añade/remueve módulo Yape/Plin');
+                    printInfo('  <strong>cotizar citas</strong>      Añade/remueve módulo de Reservas');
+                    printInfo('  <strong>cotizar clientes</strong>   Añade/remueve módulo de Puntos');
+                    printInfo('  <strong>cotizar ia</strong>         Añade/remueve módulo Asistente AI');
+                    printInfo('  <strong>cotizar rubro &lt;nombre&gt;</strong> Cambia rubro (restaurante, minimarket, clinica, servicios, virtual)');
+                    return;
+                }
+
+                if (sub === 'rubro') {
+                    const sector = args.slice(1).join(' ').toLowerCase();
+                    if (sector.includes('restaurante') || sector.includes('cafeteria') || sector.includes('cafe') || sector.includes('polleria')) {
+                        d.selectedRubro = 'Restaurante / Cafetería';
+                    } else if (sector.includes('bodega') || sector.includes('minimarket') || sector.includes('market') || sector.includes('distribuidora')) {
+                        d.selectedRubro = 'Bodega / Minimarket / Distribuidora';
+                    } else if (sector.includes('clinica') || sector.includes('consultorio') || sector.includes('dental')) {
+                        d.selectedRubro = 'Clínica / Consultorio';
+                    } else if (sector.includes('servicios') || sector.includes('consultoria') || sector.includes('profesional')) {
+                        d.selectedRubro = 'Servicios Profesionales / Consultoría';
+                    } else if (sector.includes('ecommerce') || sector.includes('virtual') || sector.includes('tienda') || sector.includes('comercio')) {
+                        d.selectedRubro = 'E-commerce / Tienda Virtual';
+                    } else {
+                        printErr('Sector comercial no reconocido: "' + escapeHTML(sector) + '"');
+                        printInfo('Soportados: restaurante, minimarket, clinica, servicios, virtual');
+                        return;
+                    }
+                    d.recalculate();
+                    printOut('✔ Sector comercial actualizado a: <strong>' + d.selectedRubro + '</strong>');
+                    return;
+                }
+
+                const modules = ['ventas', 'inventario', 'pagos', 'citas', 'clientes', 'ia'];
+                if (modules.includes(sub)) {
+                    const idx = d.showcasedModules.indexOf(sub);
+                    if (idx > -1) {
+                        d.showcasedModules.splice(idx, 1);
+                        printOut('✔ Módulo removido: <strong>' + sub + '</strong>');
+                    } else {
+                        d.showcasedModules.push(sub);
+                        printOut('✔ Módulo añadido: <strong>' + sub + '</strong>');
+                    }
+                    d.recalculate();
+                    printInfo('  Nuevo presupuesto estimado: S/ ' + d.calculatedCost + ' (' + d.calculatedDays + ' días de entrega)');
+                    return;
+                }
+
+                printErr('Comando cotizar no reconocido: "' + escapeHTML(sub) + '"');
+                printInfo('Escribe `cotizar` sin argumentos para ver las opciones.');
             },
             prospecto() {
                 // Read from Alpine.js state on page (since wizard is bound inside x-data)

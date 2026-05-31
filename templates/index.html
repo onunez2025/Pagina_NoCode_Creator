@@ -8,10 +8,99 @@
     calculatedDays: 4,
     showcasedModules: ['ventas', 'inventario'],
     calcTab: 'config',
+    aiQuery: '',
     
     // Sync calculator to wizard
     syncCalculatorToWizard() {
         document.getElementById('leads-wizard').scrollIntoView({ behavior: 'smooth' });
+    },
+
+    recommendModules() {
+        const q = this.aiQuery.toLowerCase();
+        let msg = '';
+        
+        // Reset modules
+        this.showcasedModules = [];
+        
+        if (q.includes('restaurant') || q.includes('polleria') || q.includes('comida') || q.includes('cafe') || q.includes('menu') || q.includes('mesa') || q.includes('carta')) {
+            this.selectedRubro = 'Restaurante / Cafetería';
+            this.showcasedModules.push('ventas', 'pagos');
+            msg = 'Analizado: Rubro Restaurante detectado. Activado POS + Integración Yape/Plin.';
+        } else if (q.includes('tienda') || q.includes('bodega') || q.includes('market') || q.includes('minimarket') || q.includes('ropa') || q.includes('inventario') || q.includes('compras') || q.includes('stock')) {
+            this.selectedRubro = 'Bodega / Minimarket / Distribuidora';
+            this.showcasedModules.push('ventas', 'inventario', 'pagos');
+            msg = 'Analizado: Rubro Comercial detectado. Activado POS + Inventario + Pasarela Yape/Plin.';
+        } else if (q.includes('cita') || q.includes('reserva') || q.includes('clinica') || q.includes('consultorio') || q.includes('doctor') || q.includes('medico') || q.includes('agenda')) {
+            this.selectedRubro = 'Clínica / Consultorio';
+            this.showcasedModules.push('citas', 'clientes');
+            msg = 'Analizado: Rubro Citas/Consultorios detectado. Activado Agenda Reservas + Fidelización Puntos.';
+        } else if (q.includes('servicio') || q.includes('asesor') || q.includes('consultor') || q.includes('profesional') || q.includes('empresa')) {
+            this.selectedRubro = 'Servicios Profesionales / Consultoría';
+            this.showcasedModules.push('citas', 'ia');
+            msg = 'Analizado: Rubro Servicios Profesionales. Activado Citas + Asistente de Reportes AI.';
+        } else if (q.includes('ecommerce') || q.includes('virtual') || q.includes('carrito') || q.includes('web') || q.includes('pagar') || q.includes('online')) {
+            this.selectedRubro = 'E-commerce / Tienda Virtual';
+            this.showcasedModules.push('ventas', 'inventario', 'pagos', 'ia');
+            msg = 'Analizado: Rubro E-commerce detectado. Activado Catálogo Web + Inventario + Pasarelas + Reportes AI.';
+        } else {
+            this.selectedRubro = 'Restaurante / Cafetería';
+            this.showcasedModules.push('ventas');
+            msg = 'Requerimiento general interpretado. Activado módulo base de Ventas POS.';
+        }
+        
+        this.recalculate();
+        
+        const el = document.getElementById('ai-recommender-msg');
+        if (el) {
+            el.innerHTML = '<span class=\'text-brand-cyan animate-pulse font-bold\'>⚡ ' + msg + '</span>';
+        }
+    },
+
+    downloadBlueprint() {
+        let content = `# ESPECIFICACIÓN TÉCNICA - NoCodeCreatorOS\\n\\n`;
+        content += `## 1. RESUMEN DEL PROYECTO\\n`;
+        content += `* **Rubro Comercial:** ${this.selectedRubro}\\n`;
+        content += `* **Inversión Estimada:** S/ ${this.calculatedCost}\\n`;
+        content += `* **Tiempo de Despliegue:** ${this.calculatedDays} días hábiles\\n\\n`;
+        content += `## 2. ARQUITECTURA DE SISTEMA SUGERIDA\\n`;
+        content += `* **Frontend:** Tailwind CSS + Alpine.js (Estructura interactiva móvil adaptativa)\\n`;
+        content += `* **Base de Datos:** PostgreSQL en la nube (Supabase Cloud)\\n`;
+        content += `* **Módulos Seleccionados:**\\n`;
+        
+        this.modulesList.forEach(mod => {
+            if (this.showcasedModules.includes(mod.id)) {
+                content += `  - ${mod.name}: ${mod.desc} (+S/ ${mod.cost})\\n`;
+            }
+        });
+        
+        content += `\\n## 3. ESTIMACIÓN DE RETORNO (ROI)\\n`;
+        if (this.showcasedModules.includes('ventas') && this.showcasedModules.includes('inventario')) {
+            content += `* **ROI:** Recuperación estimada de inversión en menos de 45 días mediante la reducción de pérdidas de mercadería y automatización de reportes de caja diario.\\n`;
+        } else if (this.showcasedModules.includes('citas')) {
+            content += `* **ROI:** Recuperación estimada en menos de 30 días al mitigar ausencias mediante recordatorios automáticos por WhatsApp Business.\\n`;
+        } else {
+            content += `* **ROI:** Recuperación en menos de 60 días al digitalizar las operaciones manuales básicas del negocio.\\n`;
+        }
+        
+        content += `\\n## 4. SOPORTE Y HOSTING\\n`;
+        content += `* Incluye el primer mes de hosting cloud gratuito.\\n`;
+        content += `* Soporte técnico local por WhatsApp garantizado durante los primeros 90 días en Lima, Perú.\\n\\n`;
+        content += `*Generado automáticamente por NoCodeCreatorOS AI Engine en Lima.*`;
+
+        const blob = new Blob([content.replace(/\\n/g, '\n')], { type: 'text/markdown' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `blueprint_${this.selectedRubro.toLowerCase().replace(/[^a-z0-9]/g, '_')}.md`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    },
+
+    getWhatsAppLink() {
+        const text = `Hola No-Code-Creator, acabo de cotizar mi plataforma de ${this.selectedRubro} en su portal web. Mi presupuesto estimado es de S/ ${this.calculatedCost} (${this.calculatedDays} días de entrega) con los siguientes módulos activos: ${this.showcasedModules.join(', ')}. Deseo agendar una sesión.`;
+        return `https://wa.me/51960560064?text=${encodeURIComponent(text)}`;
     }
 }">
 
@@ -294,6 +383,29 @@
                 :class="calcTab === 'config' ? 'block' : 'hidden lg:block'"
                 class="lg:col-span-7 space-y-6"
             >
+                <!-- Asistente de Selección por IA -->
+                <div class="os-card border-brand-cyan/20">
+                    <label class="block text-[10px] font-mono tracking-widest text-slate-500 uppercase font-bold mb-2">Recomendador de Módulos por IA (Algoritmo Local)</label>
+                    <div class="flex gap-2">
+                        <input 
+                            type="text" 
+                            x-model="aiQuery" 
+                            @keydown.enter.prevent="recommendModules()"
+                            placeholder="Ej: Tengo una cafetería en Miraflores y quiero vender con delivery..." 
+                            class="flex-1 bg-slate-950 border border-white/10 rounded-xl px-4 py-2 text-xs text-slate-200 placeholder-slate-600 focus:outline-none focus:border-brand-cyan/50 focus:ring-1 focus:ring-brand-cyan/30 font-mono"
+                        />
+                        <button 
+                            type="button" 
+                            @click="recommendModules()"
+                            class="px-4 py-2 bg-brand-cyan hover:bg-brand-cyan/90 text-brand-dark rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 uppercase font-mono"
+                        >
+                            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                            Analizar
+                        </button>
+                    </div>
+                    <p class="text-[9px] text-slate-500 mt-2 font-mono" id="ai-recommender-msg">* El algoritmo local interpretará las palabras clave para auto-configurar el sistema ideal.</p>
+                </div>
+
                 <!-- Rubro Selection Card -->
                 <div class="os-card">
                     <label class="eyebrow eyebrow--block font-mono mb-4 flex items-center gap-2">
@@ -453,8 +565,32 @@
                         </div>
                     </div>
 
+                    <!-- ROI and Tech Specifications -->
+                    <div class="py-4 px-4 bg-slate-900/30 border border-white/5 rounded-xl text-left font-mono text-[10px] space-y-3 mt-4">
+                        <span class="eyebrow eyebrow--muted text-[8px] tracking-widest block uppercase">RETORNO Y ESPECIFICACIONES (AI)</span>
+                        
+                        <div class="space-y-1">
+                            <p class="text-slate-500 font-bold uppercase text-[9px] tracking-wider">RETORNO DE INVERSIÓN (ROI)</p>
+                            <p class="text-emerald-400 font-bold" x-text="
+                                showcasedModules.includes('ventas') && showcasedModules.includes('inventario') ? '✔ Recuperación: < 45 días (Ahorro administrativo)' :
+                                showcasedModules.includes('citas') ? '✔ Recuperación: < 30 días (Menos ausencias)' :
+                                '✔ Recuperación: < 60 días (Optimización general)'
+                            "></p>
+                        </div>
+                        
+                        <div class="space-y-1">
+                            <p class="text-slate-500 font-bold uppercase text-[9px] tracking-wider">BLUEPRINT ARQUITECTÓNICA</p>
+                            <p class="text-slate-400 font-bold leading-normal">
+                                · Hosting Cloud/Serverless incluido (1er mes)<br>
+                                · Base de Datos: <span class="text-white">PostgreSQL (Supabase)</span><br>
+                                · Integración: <span class="text-white" x-text="selectedRubro === 'Restaurante / Cafetería' ? 'QR dinámico Yape/Plin' : 'API bancaria local'"></span><br>
+                                · Backend: <span class="text-white">Jinja + Low-Code Engine</span>
+                            </p>
+                        </div>
+                    </div>
+
                     <!-- Trigger visual lead wizard -->
-                    <div class="pt-2">
+                    <div class="pt-4 space-y-2">
                         <button 
                             type="button"
                             @click="syncCalculatorToWizard()"
@@ -463,7 +599,18 @@
                             Cotizar este proyecto
                             <i data-lucide="arrow-right" class="w-4 h-4"></i>
                         </button>
-                        <p class="text-[9px] text-slate-500 text-center mt-3 font-mono">
+                        
+                        <!-- Blueprint Download Trigger -->
+                        <button 
+                            type="button"
+                            @click="downloadBlueprint()"
+                            class="w-full py-2.5 rounded-xl border border-white/10 hover:border-brand-cyan/30 text-slate-400 hover:text-brand-cyan transition-all text-[10px] font-mono uppercase tracking-widest flex items-center justify-center gap-1.5"
+                        >
+                            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                            Descargar Blueprint Técnico
+                        </button>
+
+                        <p class="text-[9px] text-slate-500 text-center pt-1 font-mono">
                             * Estimación paramétrica sujeta a evaluación final de requerimientos comerciales.
                         </p>
                     </div>
