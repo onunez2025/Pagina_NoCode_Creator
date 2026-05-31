@@ -279,6 +279,90 @@ async def get_all_leads():
             return {"error": "No se pudo leer el archivo de leads."}
     return []
 
+
+# ==================== GEMINI AI CHATBOT INTEGRATION ====================
+
+class ChatMessage(BaseModel):
+    role: str  # 'user' o 'model'
+    parts: str  # contenido del mensaje
+
+
+class ChatRequest(BaseModel):
+    message: str
+    history: list[ChatMessage] = []
+
+
+@app.post("/api/chat")
+async def chat_with_gemini(chat_req: ChatRequest):
+    api_key = os.getenv("GEMINI_API_KEY")
+    if not api_key:
+        # Fallback si no está configurada la API key (Simulación comercial inteligente)
+        response_text = (
+            "¡Hola! Soy **No-Code-Bot**, tu asistente consultor de ventas y experto en desarrollo web de **No-Code-Creator** ⚡. "
+            "Actualmente, la clave de API de Gemini no está configurada en el servidor, pero con gusto te puedo contar que creamos "
+            "plataformas digitales a medida (e-commerce, sistemas de inventario y apps) listas en solo **3 a 5 días** y con un ahorro "
+            "del 85% comparado con agencias tradicionales. "
+            "\n\n¿De qué rubro es tu negocio y qué módulo te interesaría implementar? ¡Estoy listo para ayudarte!"
+        )
+        return {"response": response_text}
+
+    # Instrucción de sistema (System Instruction) para dotar al bot de perfil de vendedor en Lima, Perú.
+    system_instruction = (
+        "Eres 'No-Code-Bot', un asistente consultor de ventas y representante comercial altamente calificado de 'No-Code-Creator' (Lima, Perú). "
+        "Tu objetivo principal es interactuar de manera amigable, profesional y persuasiva con los visitantes de nuestra página web, resolver sus dudas técnicas o comerciales y CERRAR VENTAS capturando su interés. "
+        "Sigue estas directrices de comportamiento:\n"
+        "1. PERFIL: Eres un vendedor consultivo. Entiendes las necesidades del cliente (rubro, problemas) y le explicas cómo No-Code-Creator puede solucionarlo en TIEMPO RÉCORD (3 a 5 días) y con un COSTO EXTREMADAMENTE BAJO (desde S/ 400 por módulo, comparado con los miles de soles de agencias tradicionales).\n"
+        "2. CONTEXTO LOCAL: Operamos en Lima, Perú. Hablas con terminología local peruana de forma sutil y empática (mencionas cobros con Yape/Plin, soporte local rápido, facturación local, etc.).\n"
+        "3. LÓGICA DE PRECIOS: Si te preguntan por costos, explícales que nuestro cotizador interactivo calcula el precio dinámicamente y guíalos a usarlo. Recuerda que la base es S/ 500 y cada módulo (ventas/POS, inventario, reservas, pasarela, fidelización, IA) añade entre S/ 150 y S/ 400.\n"
+        "4. CIERRE DE VENTA: Tu meta máxima es convencer al usuario de cotizar formalmente. Invítalos a rellenar el formulario Wizard de la página o pídeles su nombre, WhatsApp y correo directamente en el chat para registrar el lead o darles un enlace directo de WhatsApp para agendar una videollamada.\n"
+        "5. TONO: Amigable, sumamente profesional, tecnológico y persuasivo, pero humilde y de confianza. Mantén respuestas concisas, dinámicas y estructuradas con viñetas si es necesario para facilitar la lectura móvil."
+    )
+
+    # Formatear el historial para la API de Gemini
+    contents = []
+    for msg in chat_req.history:
+        role = "user" if msg.role == "user" else "model"
+        contents.append({
+            "role": role,
+            "parts": [{"text": msg.parts}]
+        })
+    
+    # Agregar el mensaje actual del usuario
+    contents.append({
+        "role": "user",
+        "parts": [{"text": chat_req.message}]
+    })
+
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
+    payload = {
+        "contents": contents,
+        "systemInstruction": {
+            "parts": [{"text": system_instruction}]
+        },
+        "generationConfig": {
+            "temperature": 0.7,
+            "maxOutputTokens": 800
+        }
+    }
+
+    try:
+        async with httpx.AsyncClient() as client:
+            response = await client.post(url, json=payload, timeout=12.0)
+            if response.status_code == 200:
+                data = response.json()
+                response_text = data['candidates'][0]['content']['parts'][0]['text']
+                return {"response": response_text}
+            else:
+                print(f"Error Gemini API (Status {response.status_code}): {response.text}")
+                return {
+                    "response": "Disculpa la interrupción. Estoy experimentando una breve latencia de conexión, pero cuéntame: ¿qué tipo de sistema o módulo digital necesitas para tu negocio hoy? Estoy aquí para orientarte."
+                }
+    except Exception as e:
+        print(f"Excepción al conectar con Gemini API: {str(e)}")
+        return {
+            "response": "¡Hola! En este momento estoy ordenando mis ideas. Cuéntame sobre tu proyecto y te guiaré con gusto sobre cómo podemos digitalizar tu negocio en Lima en solo 3 días."
+        }
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)

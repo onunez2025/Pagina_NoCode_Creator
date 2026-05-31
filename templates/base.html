@@ -2,18 +2,32 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    
     <!-- SEO Optimization -->
-    <title>No-Code-Creator | Plataformas Digitales con IA en Lima, Perú</title>
+    <title>No-Code-Creator | Plataformas Digitales con IA y Low-Code en Lima, Perú</title>
     <meta name="description" content="Creamos aplicaciones y plataformas web personalizadas low-code con Inteligencia Artificial para empresas y microempresas en Lima. Listas en tiempo récord y a bajo costo.">
     <meta name="keywords" content="no-code peru, low-code lima, crear app con ia, desarrollo de software barato peru, digitalizar empresa peru, no-code-creator, plataformas digitales lima">
     <meta name="author" content="No-Code-Creator">
+    
+    <!-- Open Graph Metadata -->
+    <meta property="og:title" content="No-Code-Creator | Plataformas Digitales con IA en Lima">
+    <meta property="og:description" content="Sistemas web, e-commerce y aplicaciones móviles a medida creadas con IA. Listas en 3 días.">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="es_PE">
+    
+    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/static/favicon.ico" onerror="this.href='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>'">
 
-    <!-- Fonts and Custom CSS -->
-    <link rel="stylesheet" href="/static/css/custom.css?v=1.6">
+    <!-- Fonts: Google Fonts (Outfit, Inter & JetBrains Mono) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Tailwind CSS (Play CDN for quick dynamic prototyping) -->
+    <!-- Cyber-Neon & Custom CSS -->
+    <link rel="stylesheet" href="/static/css/neon.css?v=2.1">
+
+    <!-- Tailwind CSS (Play CDN for dynamic utilities) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -34,10 +48,10 @@
         }
     </script>
 
-    <!-- Alpine.js (Core and defer for deferred initialization) -->
+    <!-- Alpine.js (Core and defer) -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
-    <!-- Lucide Icons for clean visuals -->
+    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body 
@@ -47,187 +61,510 @@
     x-init="
         $watch('darkMode', val => localStorage.setItem('theme', val ? 'dark' : 'light'))
     "
-    :class="darkMode ? 'dark bg-brand-dark text-slate-100' : 'bg-slate-50 text-slate-800'"
-    class="flex flex-col min-h-screen relative antialiased selection:bg-brand-cyan selection:text-brand-dark transition-colors duration-300"
+    :class="darkMode ? 'dark bg-slate-950 text-slate-100' : 'bg-slate-950 text-slate-100'"
+    class="flex flex-col min-h-screen relative antialiased selection:bg-brand-cyan selection:text-brand-dark transition-colors duration-300 os-mode"
 >
-    
-    <!-- Floating Backdrops -->
-    <div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] glow-indigo -z-10 rounded-full animate-pulse-soft"></div>
-    <div class="absolute top-[40%] right-[-10%] w-[50%] h-[50%] glow-cyan -z-10 rounded-full animate-pulse-soft" style="animation-delay: 1.5s;"></div>
-    <div class="absolute bottom-[-10%] left-[20%] w-[40%] h-[40%] glow-amber -z-10 rounded-full animate-pulse-soft" style="animation-delay: 3s;"></div>
 
-    <!-- Navigation Header -->
-    <header 
-        x-data="{ 
-            mobileMenuOpen: false, 
-            isScrolled: false 
-        }" 
-        x-init="window.addEventListener('scroll', () => { isScrolled = window.scrollY > 20 })"
-        :class="isScrolled ? 'glass-panel py-3 shadow-xl border-b border-white/5' : 'bg-transparent py-5'"
-        class="fixed top-0 left-0 w-full z-50 transition-all duration-300"
-    >
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-            <!-- Logo -->
-            <a href="/" class="flex items-center space-x-3 group">
-                <div class="w-12 h-12 bg-white/5 rounded-xl p-1.5 flex items-center justify-center border border-white/10 group-hover:border-brand-cyan/30 transition-colors duration-300 shadow-md">
-                    <img src="/static/images/logo.png" alt="No-Code-Creator Logo" class="w-full h-full object-contain" />
-                </div>
-                <div class="flex flex-col">
-                    <span class="text-lg font-bold tracking-tight text-white group-hover:text-brand-cyan transition-colors duration-300">
-                        No-Code<span class="text-brand-cyan">.</span>Creator
-                    </span>
-                    <span class="text-[9px] text-slate-400 tracking-wider uppercase font-semibold leading-none">Lima - Perú</span>
-                </div>
-            </a>
+    <!-- ==================== ── SCREEN BOOTLOADER ── ==================== -->
+    <div class="boot-screen" id="boot">
+        <button class="boot-skip" id="boot-skip" type="button" aria-label="Skip boot">[SALTAR →]</button>
 
-            <!-- Desktop Navigation Links -->
-            <nav class="hidden md:flex items-center space-x-8">
-                <a href="/#servicios" class="text-slate-300 hover:text-white text-sm font-medium transition-colors duration-200">Servicios</a>
-                <a href="/#cotizador" class="text-slate-300 hover:text-white text-sm font-medium transition-colors duration-200">Cotizador AI</a>
-                <a href="/#prototipos" class="text-slate-300 hover:text-white text-sm font-medium transition-colors duration-200">Plataformas</a>
-                <a href="/#beneficios" class="text-slate-300 hover:text-white text-sm font-medium transition-colors duration-200">Beneficios</a>
-                <a href="/#faq" class="text-slate-300 hover:text-white text-sm font-medium transition-colors duration-200">Preguntas</a>
+        <pre class="boot-logo" aria-hidden="true">
+ _   _          ____          _       ___  ____  
+| \ | | ___    / ___|___   __| | ___ / _ \/ ___| 
+|  \| |/ _ \  | |   / _ \ / _` |/ _ \ | | \___ \ 
+| |\  | (_) | | |__| (_) | (_| |  __/ |_| |___) |
+|_| \_|\___/   \____\___/ \__,_|\___|\___/|____/ 
+        </pre>
+
+        <h1 class="boot-title">NoCodeCreator<span class="boot-title__accent">OS</span></h1>
+        <p class="boot-meta">v1.2.0 · KERNEL 5.2.0-NOCODE · LIMA→PE</p>
+
+        <div class="boot-progress" aria-hidden="true">
+            <div class="boot-progress__fill" id="boot-fill"></div>
+        </div>
+        <p class="boot-pct" id="boot-pct">0%</p>
+
+        <div class="boot-log" id="boot-log" aria-live="polite"></div>
+    </div>
+
+
+    <!-- ==================== ── DESKTOP SHELL ── ==================== -->
+    <div class="os-desktop flex flex-col min-h-screen relative" id="desktop" aria-hidden="true">
+
+        <!-- OS Fixed Top Menu -->
+        <header class="os-topbar">
+            <div class="os-topbar__left">
+                <!-- Mini Logo / Avatar wrapper -->
+                <a href="/" class="os-topbar__brand">
+                    <span>NoCodeOS</span>
+                </a>
+            </div>
+
+            <!-- Center menu for direct navigation -->
+            <nav class="hidden md:flex items-center space-x-6 text-xs font-mono tracking-wider">
+                <a href="/#servicios" class="text-slate-400 hover:text-brand-cyan transition-colors">/SERVICIOS</a>
+                <a href="/#cotizador" class="text-slate-400 hover:text-brand-cyan transition-colors">/COTIZADOR_AI</a>
+                <a href="/#prototipos" class="text-slate-400 hover:text-brand-cyan transition-colors">/PLATAFORMAS</a>
+                <a href="/#beneficios" class="text-slate-400 hover:text-brand-cyan transition-colors">/BENEFICIOS</a>
+                <a href="/#leads-wizard" class="text-slate-400 hover:text-brand-cyan transition-colors">/CONTACTO</a>
             </nav>
 
-            <!-- Call to Action Button / Theme Toggle -->
-            <div class="hidden md:flex items-center space-x-4">
-                <!-- Theme Toggle Button -->
-                <button 
-                    @click="darkMode = !darkMode" 
-                    class="p-2.5 rounded-xl bg-white/5 border border-white/10 text-slate-300 hover:text-white hover:bg-white/10 transition-all focus:outline-none"
-                    aria-label="Toggle Theme"
-                >
-                    <!-- Sun Icon (shows in Dark Mode) -->
-                    <i x-show="darkMode" data-lucide="sun" class="w-5 h-5 text-brand-amber"></i>
-                    <!-- Moon Icon (shows in Light Mode) -->
-                    <i x-show="!darkMode" data-lucide="moon" class="w-5 h-5 text-brand-indigo" style="display: none;"></i>
-                </button>
-
-                <a href="/#cotizador" class="relative group overflow-hidden px-5 py-2.5 rounded-xl font-semibold text-sm transition-all duration-300 shadow-md">
-                    <div class="absolute inset-0 w-full h-full bg-gradient-to-r from-brand-cyan to-brand-indigo transition-all duration-300 group-hover:scale-105"></div>
-                    <span class="relative text-brand-dark flex items-center gap-1.5">
-                        Iniciar Cotización
-                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                    </span>
-                </a>
+            <div class="os-topbar__right">
+                <span class="os-tray__seg os-tray__seg--hide-mobile">
+                    <span class="os-dot os-dot--live" aria-hidden="true"></span> LIMA · PE
+                </span>
+                <span class="os-tray__seg os-tray__seg--hide-mobile">ONLINE</span>
+                <span class="os-tray__seg text-brand-cyan font-bold" id="os-clock">--:--</span>
             </div>
+        </header>
 
-            <!-- Mobile Action Area -->
-            <div class="flex items-center space-x-2 md:hidden">
-                <!-- Mobile Theme Toggle -->
-                <button 
-                    @click="darkMode = !darkMode" 
-                    class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-colors focus:outline-none"
-                    aria-label="Toggle Theme Mobile"
-                >
-                    <i x-show="darkMode" data-lucide="sun" class="w-5 h-5 text-brand-amber"></i>
-                    <i x-show="!darkMode" data-lucide="moon" class="w-5 h-5 text-brand-indigo" style="display: none;"></i>
-                </button>
+        <!-- Main Content Area -->
+        <main class="flex-grow">
+            {% block content %}{% endblock %}
+        </main>
 
-                <!-- Mobile Hamburger Button -->
-                <button 
-                    @click="mobileMenuOpen = !mobileMenuOpen" 
-                    class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-colors focus:outline-none"
-                    aria-label="Toggle menu"
-                >
-                    <i x-show="!mobileMenuOpen" data-lucide="menu" class="w-6 h-6"></i>
-                    <i x-show="mobileMenuOpen" data-lucide="x" class="w-6 h-6" style="display: none;"></i>
-                </button>
-            </div>
-        </div>
-
-        <!-- Mobile Drawer -->
-        <div 
-            x-show="mobileMenuOpen" 
-            x-transition:enter="transition ease-out duration-200"
-            x-transition:enter-start="opacity-0 -translate-y-4"
-            x-transition:enter-end="opacity-100 translate-y-0"
-            x-transition:leave="transition ease-in duration-150"
-            x-transition:leave-start="opacity-100 translate-y-0"
-            x-transition:leave-end="opacity-0 -translate-y-4"
-            class="md:hidden absolute top-full left-0 w-full glass-panel border-b border-white/10 shadow-2xl py-6 px-4 space-y-4 flex flex-col"
-            style="display: none;"
-        >
-            <a @click="mobileMenuOpen = false" href="/#servicios" class="text-slate-300 hover:text-white py-2 text-base font-medium border-b border-white/5">Servicios</a>
-            <a @click="mobileMenuOpen = false" href="/#cotizador" class="text-slate-300 hover:text-white py-2 text-base font-medium border-b border-white/5">Cotizador AI</a>
-            <a @click="mobileMenuOpen = false" href="/#prototipos" class="text-slate-300 hover:text-white py-2 text-base font-medium border-b border-white/5">Plataformas</a>
-            <a @click="mobileMenuOpen = false" href="/#beneficios" class="text-slate-300 hover:text-white py-2 text-base font-medium border-b border-white/5">Beneficios</a>
-            <a @click="mobileMenuOpen = false" href="/#faq" class="text-slate-300 hover:text-white py-2 text-base font-medium border-b border-white/5">Preguntas</a>
-            <a @click="mobileMenuOpen = false" href="/#cotizador" class="w-full text-center py-3 bg-gradient-to-r from-brand-cyan to-brand-indigo text-brand-dark rounded-xl font-bold transition-all shadow-lg shadow-brand-cyan/20">
-                Cotizar Mi App
-            </a>
-        </div>
-    </header>
-
-    <!-- Main Content Area -->
-    <main class="flex-grow pt-24">
-        {% block content %}{% endblock %}
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-brand-dark/90 border-t border-white/5 py-12 relative overflow-hidden mt-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10">
-            <!-- Brand -->
-            <div class="space-y-4 md:col-span-2">
-                <a href="/" class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-white/5 rounded-xl p-1.5 flex items-center justify-center border border-white/5 shadow-md">
-                        <img src="/static/images/logo.png" alt="No-Code-Creator Logo" class="w-full h-full object-contain" />
+        <!-- Footer -->
+        <footer class="bg-slate-950 border-t border-white/5 py-12 relative overflow-hidden mt-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10">
+                <!-- Brand -->
+                <div class="space-y-4 md:col-span-2">
+                    <a href="/" class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-white/5 rounded-xl p-1.5 flex items-center justify-center border border-white/5 shadow-md">
+                            <img src="/static/images/logo.png" alt="No-Code-Creator Logo" class="w-full h-full object-contain" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22>⚡</text></svg>'"/>
+                        </div>
+                        <span class="text-lg font-bold text-white">No-Code<span class="text-brand-cyan">.</span>Creator</span>
+                    </a>
+                    <p class="text-slate-400 text-sm max-w-sm">
+                        Revolucionamos la digitalización en Lima. Creamos software a la medida de tu negocio utilizando Inteligencia Artificial y tecnologías Low-Code en días, no meses.
+                    </p>
+                    <div class="flex items-center space-x-3 text-slate-400">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-mono bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/20">
+                            📍 Miraflores, Lima, Perú
+                        </span>
                     </div>
-                    <span class="text-lg font-bold text-white">No-Code<span class="text-brand-cyan">.</span>Creator</span>
-                </a>
-                <p class="text-slate-400 text-sm max-w-sm">
-                    Revolucionamos la digitalización en Lima. Creamos software a la medida de tu negocio utilizando Inteligencia Artificial y tecnologías Low-Code en días, no meses.
-                </p>
-                <div class="flex items-center space-x-3 text-slate-400">
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/20">
-                        📍 Hecho con ⚡ en Lima, Perú
-                    </span>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-white text-xs font-mono tracking-wider uppercase mb-4">SISTEMA</h4>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><a href="/#servicios" class="hover:text-brand-cyan transition-colors">/Servicios</a></li>
+                        <li><a href="/#cotizador" class="hover:text-brand-cyan transition-colors">/Cotizador_AI</a></li>
+                        <li><a href="/#prototipos" class="hover:text-brand-cyan transition-colors">/Plataformas</a></li>
+                        <li><a href="/#leads-wizard" class="hover:text-brand-cyan transition-colors">/Asistente_Wizard</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="text-white text-xs font-mono tracking-wider uppercase mb-4">CONTACTO</h4>
+                    <ul class="space-y-2 text-sm text-slate-400 font-mono text-xs">
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="mail" class="w-4 h-4 text-brand-cyan"></i>
+                            <span>no.code.creator.adm@gmail.com</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="phone" class="w-4 h-4 text-brand-cyan"></i>
+                            <span>+51 960 560 064</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="terminal" class="w-4 h-4 text-brand-cyan"></i>
+                            <span>Miraflores, Lima</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
 
-            <!-- Quick Links -->
-            <div>
-                <h4 class="text-white text-sm font-semibold tracking-wider uppercase mb-4">Compañía</h4>
-                <ul class="space-y-2 text-sm text-slate-400">
-                    <li><a href="/#servicios" class="hover:text-brand-cyan transition-colors">Servicios</a></li>
-                    <li><a href="/#cotizador" class="hover:text-brand-cyan transition-colors">Cotizador AI</a></li>
-                    <li><a href="/#prototipos" class="hover:text-brand-cyan transition-colors">Plataformas</a></li>
-                    <li><a href="/#faq" class="hover:text-brand-cyan transition-colors">Preguntas frecuentes</a></li>
-                </ul>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-white/5 mt-8 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 relative z-10 font-mono">
+                <span>&copy; <span id="copyright-year">2026</span> · NO-CODE-CREATOR · <span class="text-brand-cyan">v1.2.0</span></span>
+                <div class="flex items-center gap-6 mt-4 sm:mt-0">
+                    <button type="button" class="hover:text-brand-cyan flex items-center gap-1.5 transition-colors uppercase font-mono tracking-widest text-xs" id="open-term-footer">
+                        <i data-lucide="terminal" class="w-4 h-4"></i> MODO TERMINAL
+                    </button>
+                </div>
             </div>
+        </footer>
 
-            <!-- Contact -->
-            <div>
-                <h4 class="text-white text-sm font-semibold tracking-wider uppercase mb-4">Contacto</h4>
-                <ul class="space-y-2 text-sm text-slate-400">
-                    <li class="flex items-center gap-2">
-                        <i data-lucide="mail" class="w-4 h-4 text-brand-cyan"></i>
-                        <span>no.code.creator.adm@gmail.com</span>
-                    </li>
-                    <li class="flex items-center gap-2">
-                        <i data-lucide="phone" class="w-4 h-4 text-brand-cyan"></i>
-                        <span>+51 960 560 064</span>
-                    </li>
-                    <li class="flex items-center gap-2">
-                        <i data-lucide="map-pin" class="w-4 h-4 text-brand-cyan"></i>
-                        <span>Miraflores, Lima, Perú</span>
-                    </li>
-                </ul>
+    </div>
+
+
+    <!-- ==================== ── TERMINAL OVERLAY WINDOW ── ==================== -->
+    <div class="terminal-modal" id="term-modal" role="dialog" aria-label="Terminal" aria-modal="true">
+        <div class="terminal-modal__window">
+            <header class="terminal-modal__chrome">
+                <span class="terminal-modal__chrome__left">Terminal · guest@nocodecreator-os:~</span>
+                <button class="terminal-modal__close" id="term-close" type="button" aria-label="Close terminal">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </header>
+            <div class="terminal-modal__body">
+                <div class="term">
+                    <div class="term__output" id="term-out" role="log" aria-live="polite">
+                         <div class="motd">
+                             <strong>NoCodeCreatorOS · v1.2.0</strong> — low-code + ia para empresas de Lima<br>
+                             escribe <strong>ayuda</strong> o <strong>help</strong> para ver la lista de comandos.
+                         </div>
+                    </div>
+                    <form class="term__input-line" id="term-form" autocomplete="off">
+                        <span class="term__prompt" aria-hidden="true">guest@nocode-os:~$</span>
+                        <input class="term__input" id="term-input" type="text" spellcheck="false"
+                            autocapitalize="off" autocorrect="off"
+                            placeholder="escribe `ayuda` o `whoami`...">
+                    </form>
+                </div>
             </div>
         </div>
+    </div>
 
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-white/5 mt-8 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 relative z-10">
-            <span>&copy; 2026 No-Code-Creator. Todos los derechos reservados.</span>
-            <div class="flex space-x-6 mt-4 sm:mt-0">
-                <a href="#" class="hover:text-slate-300">Términos de servicio</a>
-                <a href="#" class="hover:text-slate-300">Política de privacidad</a>
-            </div>
-        </div>
-    </footer>
 
-    <!-- Initialize Lucide Icons -->
+    <!-- ==================== ── CORE SCRIPTS (CLOCK, TERMINAL REPL, BOOT) ── ==================== -->
     <script>
-        lucide.createIcons();
+    (function () {
+        'use strict';
+        const $  = (s, r = document) => r.querySelector(s);
+        const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+
+        // ============== Real-time Clock ==============
+        function tickClock() {
+            const d   = new Date();
+            const hh  = String(d.getHours()).padStart(2, '0');
+            const mm  = String(d.getMinutes()).padStart(2, '0');
+            const top = $('#os-clock');
+            if (top) top.textContent = hh + ':' + mm;
+        }
+        tickClock();
+        setInterval(tickClock, 15000);
+
+        // Copyright Year update
+        const cy = $('#copyright-year');
+        if (cy) cy.textContent = new Date().getFullYear();
+
+        // ============== Interactive CLI Terminal REPL ==============
+        const out   = $('#term-out');
+        const input = $('#term-input');
+        const form  = $('#term-form');
+        if (!out || !input || !form) return;
+
+        const history = [];
+        let histPos = -1;
+
+        function lineEl(html, cls) {
+            const el = document.createElement('div');
+            el.className = 'term__line' + (cls ? ' term__line--' + cls : '');
+            el.innerHTML = html;
+            return el;
+        }
+        function print(html, cls)   { out.appendChild(lineEl(html, cls)); out.scrollTop = out.scrollHeight; }
+        function printPrompt(cmd)   { print(escapeHTML(cmd), 'prompt'); }
+        function printOut(html)     { print(html, 'out'); }
+        function printErr(html)     { print(html, 'err'); }
+        function printInfo(html)    { print(html, 'info'); }
+
+        function escapeHTML(s) {
+            return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
+        const commands = {
+            help() { commands.ayuda(); },
+            ayuda() {
+                printOut('Comandos disponibles en NoCodeCreatorOS:');
+                printInfo('  <strong>whoami</strong>         Identidad de No-Code Creator');
+                printInfo('  <strong>servicios</strong>      Catálogo de módulos de software y precios');
+                printInfo('  <strong>casos</strong>          Casos de éxito y prototipos activos');
+                printInfo('  <strong>cotizar</strong>        Instrucciones para cotizar tu app');
+                printInfo('  <strong>prospecto</strong>      [DINÁMICO] Genera JSON con tu cotización de la página');
+                printInfo('  <strong>yape</strong>           Información de cobros con Yape/Plin/Factura');
+                printInfo('  <strong>contacto</strong>       Canales de comunicación directa y soporte');
+                printInfo('  <strong>neofetch</strong>       Especificaciones técnicas del sistema');
+                printInfo('  <strong>fortune</strong>        Frase aleatoria de tecnología y negocios');
+                printInfo('  <strong>clear</strong> / <strong>limpiar</strong>  Limpia la pantalla');
+                printInfo('  <strong>exit</strong> / <strong>salir</strong>    Cierra el modal de la terminal');
+            },
+            whoami() {
+                printOut('No-Code Creator — Agencia de Automatización e Inteligencia Artificial');
+                printOut('Ubicación: Miraflores, Lima, Perú');
+                printOut('Misión: Digitalizar y automatizar microempresas y corporativos en Lima');
+                printOut('        en tiempo récord (3 a 5 días) y con un 85% de ahorro en costos.');
+            },
+            servicios() {
+                printOut('Catálogo Modular de Soluciones — No-Code Creator:');
+                printOut('');
+                printOut('  ┌─ MÓDULOS DE SISTEMA ────────────────────────────────────');
+                printOut('  · Base del Sistema (Landing + Hosting) : S/ 500  (3 días)');
+                printOut('  · Ventas y Caja POS                    : S/ 400  (+1 día)');
+                printOut('  · Control de Inventario                : S/ 300  (+1 día)');
+                printOut('  · Pasarela de Pagos (Yape/Plin/Tarj)   : S/ 250  (+1 día)');
+                printOut('  · Agenda y Reservas de Citas           : S/ 200  (+1 día)');
+                printOut('  · Fidelización de Clientes             : S/ 150  (Inmediato)');
+                printOut('  · Asistente Financiero & Reportes AI   : S/ 350  (+1 día)');
+                printOut('');
+                printInfo('tip: Escribe <strong>cotizar</strong> para iniciar el asistente visual o <strong>prospecto</strong>.');
+            },
+            casos() {
+                printOut('Plataformas y Prototipos en Acción:');
+                printOut('  · Restaurante / Pollería  : Sistema de Delivery & Control de Mesas (QR)');
+                printOut('  · Bodega / Minimarket     : POS e Inventario Inteligente de caja rápida');
+                printOut('  · Consultorio / Citas     : Reservas 24/7 y recordatorios por WhatsApp');
+                printInfo('tip: Todos los prototipos se cargan en la sección /PLATAFORMAS en la web.');
+            },
+            cotizar() {
+                printOut('¿Listo para crear tu app?');
+                printOut('Usa nuestro Cotizador AI interactivo en la sección principal del sitio.');
+                printOut('Selecciona tu rubro y marca los módulos que tu negocio necesita.');
+                printOut('¡La estimación se calcula en tiempo real y puedes enviarla de inmediato!');
+            },
+            prospecto() {
+                // Read from Alpine.js state on page (since wizard is bound inside x-data)
+                // We grab variables from the document element or window if exposed, or fallback
+                try {
+                    const el = document.querySelector('[x-data]');
+                    if (el && el.__x && el.__x.$data) {
+                        const d = el.__x.$data;
+                        printOut('{');
+                        printOut('  "rubro_comercial": "' + d.selectedRubro + '",');
+                        printOut('  "modulos_activos": ' + JSON.stringify(d.showcasedModules) + ',');
+                        printOut('  "inversion_estimada": "S/ ' + d.calculatedCost + '",');
+                        printOut('  "dias_de_entrega": "' + d.calculatedDays + ' días"');
+                        printOut('}');
+                    } else {
+                        // Fallback manual read
+                        const rubro = window.selectedRubro || 'No seleccionado';
+                        const cost = window.calculatedCost || 500;
+                        const days = window.calculatedDays || 3;
+                        printOut('{');
+                        printOut('  "rubro_comercial": "' + rubro + '",');
+                        printOut('  "inversion_estimada": "S/ ' + cost + '",');
+                        printOut('  "dias_de_entrega": "' + days + ' días"');
+                        printOut('}');
+                    }
+                } catch(e) {
+                    printOut('{\n  "error": "No se pudo leer el estado del cotizador de Alpine.js en esta vista."\n}');
+                }
+            },
+            yape() {
+                printOut('Cobros Locales & Facturación Electrónica:');
+                printOut('  · Integramos botones directos de Yape/Plin mediante lectura de QR dinámico.');
+                printOut('  · Pasarelas de pago peruanas (Culqi, Niubiz, MercadoPago) para tarjetas.');
+                printOut('  · Emisión automatizada de Boletas y Facturas electrónicas locales.');
+            },
+            contacto() {
+                printOut('Canales de Atención No-Code Creator:');
+                printOut('  · Correo  : no.code.creator.adm@gmail.com');
+                printOut('  · WhatsApp: +51 960 560 064');
+                printOut('  · Ubicación: Miraflores, Lima, Perú');
+                printInfo('Soporte técnico local garantizado para microempresas de Lima.');
+            },
+            neofetch() {
+                printOut('NoCodeOS 1.2.0 #cyberSMP x86_64 GNU/Linux');
+                printOut('host: nocodecreator-os.pe  ·  kernel: 5.2.0-nocode');
+                printOut('terminal: CLI REPL v1.2  ·  shell: bash-simulated');
+            },
+            fortune() {
+                const quotes = [
+                    '"El software más rápido es el que se escribe con IA y se despliega con Low-Code."',
+                    '"La automatización no es una alternativa de lujo, es la base de la supervivencia de una pyme."',
+                    '"No pagues de por vida licencias SaaS costosas. Autogestiona tus procesos."',
+                    '"Un Yape rápido en el checkout incrementa tus ventas locales en un 30%."',
+                    '"El verdadero no-code no reemplaza al programador; potencia al emprendedor."'
+                ];
+                printOut(quotes[Math.floor(Math.random() * quotes.length)]);
+            },
+            limpiar() { commands.clear(); },
+            clear() { out.innerHTML = ''; },
+            salir() { commands.exit(); },
+            exit() {
+                closeTerm();
+                printOut('Cerrando terminal...');
+            },
+            sudo() {
+                printErr('Acceso denegado. Los invitados no tienen privilegios de superusuario.');
+                printInfo('tip: Para agendar soporte escribe `contacto`.');
+            }
+        };
+
+        function run(raw) {
+            const trimmed = raw.trim();
+            printPrompt(trimmed);
+            if (!trimmed) return;
+            history.push(trimmed);
+            histPos = history.length;
+            const parts = trimmed.split(/\s+/);
+            const cmd = parts[0].toLowerCase();
+            const args = parts.slice(1);
+            const fn = commands[cmd];
+            if (fn) { try { fn(args); } catch (err) { printErr('error: ' + err.message); } }
+            else    { printErr('Comando no reconocido: "' + cmd + '"'); printInfo('escribe `ayuda` para ver la lista de comandos.'); }
+        }
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const v = input.value;
+            input.value = '';
+            run(v);
+        });
+
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowUp') {
+                if (history.length === 0) return;
+                e.preventDefault();
+                histPos = Math.max(0, histPos - 1);
+                input.value = history[histPos] || '';
+            } else if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                histPos = Math.min(history.length, histPos + 1);
+                input.value = history[histPos] || '';
+            } else if (e.key === 'l' && (e.ctrlKey || e.metaKey)) {
+                e.preventDefault();
+                commands.clear();
+            }
+        });
+
+        // ============== Terminal modal open/close ==============
+        const termModal = $('#term-modal');
+        const termClose = $('#term-close');
+
+        function openTerm() {
+            termModal.classList.add('is-open');
+            setTimeout(() => input && input.focus(), 80);
+        }
+        function closeTerm() { termModal.classList.remove('is-open'); }
+
+        ['#open-term', '#open-term-footer'].forEach(sel => {
+            const btn = $(sel);
+            if (btn) btn.addEventListener('click', (e) => { e.preventDefault(); openTerm(); });
+        });
+        
+        document.addEventListener('click', (e) => {
+            const target = e.target.closest('[data-open-term]');
+            if (target) {
+                e.preventDefault();
+                openTerm();
+            }
+        });
+
+        if (termClose) termClose.addEventListener('click', closeTerm);
+        if (termModal) termModal.addEventListener('click', (e) => {
+            if (e.target === termModal) closeTerm();
+        });
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && termModal.classList.contains('is-open')) closeTerm();
+            if (e.key === '`' && !termModal.classList.contains('is-open')) {
+                if (document.activeElement && /input|textarea/i.test(document.activeElement.tagName)) return;
+                e.preventDefault();
+                openTerm();
+            }
+        });
+
+        if (termModal) termModal.addEventListener('click', (e) => {
+            if (!termModal.contains(e.target) || e.target === termModal) return;
+            const sel = window.getSelection();
+            if (sel && sel.toString()) return;
+            if (e.target.closest('.terminal-modal__close, a, button')) return;
+            input.focus();
+        });
+    })();
+    </script>
+
+    <!-- ==================== ── BOOT ANIMATOR SCRIPT ── ==================== -->
+    <script>
+    (function () {
+        'use strict';
+        const $ = (s, r = document) => r.querySelector(s);
+
+        const boot   = $('#boot');
+        const fill   = $('#boot-fill');
+        const pct    = $('#boot-pct');
+        const log    = $('#boot-log');
+        const skipBt = $('#boot-skip');
+        const desktop= $('#desktop');
+        if (!boot || !desktop) return;
+
+        // Boot logging simulation steps
+        const bootSteps = [
+            { text: 'initializing kernel 5.2.0-nocode',                     ms: 180 },
+            { text: 'mounting /dev/sda1     · ext4 · 256gb',               ms: 220 },
+            { text: 'mounting /dev/sda2     · swap · 16gb',                ms: 120 },
+            { text: 'loading visual builders · alpine_js · tailwind',      ms: 250 },
+            { text: 'starting systemd       · 85 services',                ms: 180 },
+            { text: 'starting supabase.service · db.nocodecreator.pe',     ms: 300 },
+            { text: 'starting local_backup.service · leads.json',          ms: 160 },
+            { text: 'connecting api.gemini.ai    · 200 ok · 45ms',         ms: 280 },
+            { text: 'starting nocode_bot.service · :8000',                 ms: 220 },
+            { text: 'system ready · uptime 100% · welcome entrepreneur',    ms: 400, status: 'done' },
+        ];
+        const TOTAL_STEPS = bootSteps.length;
+
+        function makeLogLine(text) {
+            const line = document.createElement('div');
+            line.className = 'boot-log__line is-current';
+            line.innerHTML =
+                '<span class="boot-log__cur">› </span>' +
+                '<span class="boot-log__line__text">' + text + '</span>' +
+                '<span class="boot-log__line__status"><span class="boot-log__pending"></span></span>';
+            return line;
+        }
+        function completeLine(line, status) {
+            if (!line) return;
+            line.classList.remove('is-current');
+            const statusEl = line.querySelector('.boot-log__line__status');
+            if (!statusEl) return;
+            const tag = status || 'ok';
+            statusEl.innerHTML = '<span class="boot-log__' + tag + '">[' + tag + ']</span>';
+        }
+        function pruneOldLines(maxKeep) {
+            while (log.children.length > maxKeep) log.removeChild(log.firstChild);
+        }
+        function finishBoot() {
+            boot.classList.add('is-hidden');
+            desktop.setAttribute('aria-hidden', 'false');
+            desktop.classList.add('is-ready');
+            try { sessionStorage.setItem('ncc_booted', '1'); } catch (e) {}
+            lucide.createIcons(); // Initialize icons once UI shows up
+        }
+        function instantFinish() {
+            boot.style.transition = 'none';
+            boot.classList.add('is-hidden');
+            desktop.setAttribute('aria-hidden', 'false');
+            desktop.classList.add('is-ready');
+            setTimeout(() => {
+                lucide.createIcons();
+            }, 50);
+        }
+        function runBoot() {
+            let i = 0;
+            let prevLine = null;
+            function next() {
+                if (prevLine) completeLine(prevLine, bootSteps[i - 1].status);
+                if (i >= TOTAL_STEPS) {
+                    fill.style.width = '100%';
+                    pct.textContent  = '100%';
+                    setTimeout(finishBoot, 350);
+                    return;
+                }
+                const step = bootSteps[i];
+                const newLine = makeLogLine(step.text);
+                log.appendChild(newLine);
+                pruneOldLines(5);
+                prevLine = newLine;
+                const p = Math.floor(((i + 0.5) / TOTAL_STEPS) * 100);
+                fill.style.width = p + '%';
+                pct.textContent  = p + '%';
+                i++;
+                setTimeout(next, step.ms);
+            }
+            next();
+        }
+
+        skipBt.addEventListener('click', finishBoot);
+
+        let alreadyBooted = false;
+        try { alreadyBooted = sessionStorage.getItem('ncc_booted') === '1'; } catch (e) {}
+
+        if (alreadyBooted) instantFinish();
+        else                runBoot();
+    })();
     </script>
 </body>
 </html>
