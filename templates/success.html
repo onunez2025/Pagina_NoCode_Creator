@@ -1,66 +1,54 @@
 {% extends "base.html" %}
 
 {% block content %}
-<section class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 text-center relative flex flex-col items-center justify-center min-h-[70vh]">
-    <!-- Glow Effect Behind Card -->
-    <div class="absolute inset-0 bg-brand-cyan/5 rounded-full blur-3xl -z-10 max-w-lg mx-auto"></div>
+<section class="relative min-h-[85vh] flex items-center justify-center overflow-hidden">
+    <div class="hero-mesh"></div>
+    <div class="absolute inset-0 tech-grid-overlay opacity-10 pointer-events-none"></div>
 
-    <div class="os-card p-8 md:p-12 rounded-3xl border border-brand-cyan/20 shadow-2xl relative overflow-hidden w-full max-w-xl">
-        <!-- Grid overlay -->
-        <div class="absolute inset-0 tech-grid-overlay opacity-5 pointer-events-none"></div>
-
-        <!-- Success Animated Check Icon with Neon Glow -->
-        <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-brand-cyan to-brand-indigo flex items-center justify-center mx-auto mb-8 shadow-xl shadow-brand-cyan/20 animate-bounce">
-            <i data-lucide="check" class="w-8 h-8 text-brand-dark stroke-[3]"></i>
-        </div>
-
-        <!-- Custom Greeting Header -->
-        <h1 class="text-2xl sm:text-3xl font-extrabold text-white mb-4 uppercase tracking-wide font-sans">
-            ¡Felicitaciones, {{ nombre }}!
-        </h1>
-        
-        <p class="text-slate-400 text-xs sm:text-sm max-w-md mx-auto mb-8 leading-relaxed font-mono">
-            Hemos registrado con éxito tu solicitud para digitalizar tu negocio en el rubro de <strong class="text-brand-cyan font-bold">{{ rubro }}</strong>{% if empresa and empresa != 'No especificado' %} para tu empresa <strong class="text-white font-bold">{{ empresa }}</strong>{% endif %}.
-        </p>
-
-        <!-- Dynamic Lead Reference Details in Cybernetic OS Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-md mx-auto mb-8 text-left bg-slate-900/50 p-5 rounded-2xl border border-white/5 font-mono text-[11px]">
-            <div class="space-y-1">
-                <p class="text-slate-500 font-semibold uppercase tracking-widest text-[9px]">ESTADO DE APROVISIONAMIENTO</p>
-                <p class="text-emerald-400 font-bold flex items-center gap-1.5">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    ASESOR AI ASIGNADO
-                </p>
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 py-16 relative z-10 w-full">
+        <div class="bento-card p-8 md:p-12 text-center">
+            <!-- Animated check -->
+            <div class="w-20 h-20 rounded-full bg-gradient-to-tr from-brand-deep to-brand-electric flex items-center justify-center mx-auto mb-8 shadow-2xl shadow-brand-electric/25">
+                <i data-lucide="check" class="w-10 h-10 text-white stroke-[2.5]"></i>
             </div>
-            <div class="space-y-1 border-t sm:border-t-0 sm:border-l border-white/5 sm:pl-5 pt-3 sm:pt-0">
-                <p class="text-slate-500 font-semibold uppercase tracking-widest text-[9px]">TIEMPO DE RESPUESTA</p>
-                <p class="text-white font-bold">CONTACTO INMEDIATO</p>
-            </div>
-        </div>
 
-        <!-- Call to Actions -->
-        <div class="space-y-6 flex flex-col items-center">
-            <!-- Primary Fast Track CTA: WhatsApp -->
-            <a 
-                href="https://wa.me/51960560064?text=Hola%20No-Code-Creator,%20acabo%20de%20cotizar%20mi%20plataforma%20de%20{{ rubro | urlencode }}%20para%20mi%20negocio%20{{ empresa | urlencode }}.%20Mi%20nombre%20es%20{{ nombre | urlencode }}."
-                target="_blank"
-                class="os-cta font-mono uppercase tracking-wider justify-center w-full sm:w-auto"
-            >
-                <i data-lucide="message-square" class="w-4 h-4"></i>
-                Acelerar por WhatsApp
-            </a>
-            
-            <p class="text-[9px] text-slate-500 font-mono">
-                * O si prefieres, nuestro equipo se contactará contigo directamente a tu correo o teléfono en Lima.
+            <!-- Greeting -->
+            <div class="font-mono text-brand-electric text-xs font-bold tracking-widest mb-3">SOLICITUD REGISTRADA ✓</div>
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-white mb-4">
+                ¡Listo, <span class="text-gradient-blue">{{ nombre }}</span>!
+            </h1>
+            <p class="text-slate-400 text-sm max-w-md mx-auto mb-8 leading-relaxed">
+                Recibimos tu solicitud para el rubro de <strong class="text-brand-electric">{{ rubro }}</strong>{% if empresa and empresa != 'No especificado' %} de <strong class="text-white">{{ empresa }}</strong>{% endif %}. Un asesor en Lima se contactará contigo muy pronto.
             </p>
 
-            <div class="pt-6 border-t border-white/5 w-full mt-6">
-                <a 
-                    href="/" 
-                    class="inline-flex items-center gap-1.5 text-xs font-mono text-slate-500 hover:text-brand-cyan transition-colors uppercase tracking-widest"
+            <!-- Status grid -->
+            <div class="grid grid-cols-2 gap-4 max-w-sm mx-auto mb-8 text-left">
+                <div class="bg-brand-deep/30 border border-brand-electric/10 rounded-xl p-4 font-mono">
+                    <p class="text-[9px] text-slate-500 uppercase tracking-widest font-bold mb-1">Estado</p>
+                    <p class="text-brand-electric font-bold text-sm flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-brand-electric animate-pulse"></span>
+                        Asesor asignado
+                    </p>
+                </div>
+                <div class="bg-brand-deep/30 border border-brand-electric/10 rounded-xl p-4 font-mono">
+                    <p class="text-[9px] text-slate-500 uppercase tracking-widest font-bold mb-1">Respuesta</p>
+                    <p class="text-white font-bold text-sm">Menos de 24h</p>
+                </div>
+            </div>
+
+            <!-- CTAs -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <a
+                    href="https://wa.me/51960560064?text=Hola%20NoCode%20Creator%2C%20acabo%20de%20registrar%20mi%20solicitud.%20Soy%20{{ nombre | urlencode }}%20del%20rubro%20{{ rubro | urlencode }}."
+                    target="_blank"
+                    class="os-cta font-mono uppercase tracking-wider text-sm w-full sm:w-auto justify-center"
                 >
-                    <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
-                    Volver al sistema
+                    <i data-lucide="message-square" class="w-4 h-4"></i>
+                    Acelerar por WhatsApp
+                </a>
+                <a href="/" class="os-cta-ghost font-mono uppercase tracking-wider text-sm w-full sm:w-auto justify-center">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                    Volver al inicio
                 </a>
             </div>
         </div>
