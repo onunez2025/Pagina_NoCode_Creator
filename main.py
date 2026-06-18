@@ -12,6 +12,7 @@ from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, EmailStr
 from dotenv import load_dotenv
 import httpx
+import urllib.parse
 
 # Cargar variables de entorno
 load_dotenv()
@@ -200,6 +201,39 @@ def enviar_correo_notificacion(lead_data: dict):
         return False
 
 
+async def enviar_whatsapp_admin(lead_data: dict):
+    """Envía notificación instantánea al WhatsApp del admin via Callmebot (gratuito)."""
+    phone = os.getenv("CALLMEBOT_PHONE")
+    apikey = os.getenv("CALLMEBOT_APIKEY")
+    if not phone or not apikey:
+        print("Advertencia: CALLMEBOT_PHONE o CALLMEBOT_APIKEY no configurados. Notificación WhatsApp omitida.")
+        return
+
+    problema_corto = str(lead_data.get("problema", ""))[:100]
+    mensaje = (
+        f"⚡ NUEVO LEAD - NoCode Creator\n\n"
+        f"👤 {lead_data.get('nombre')}\n"
+        f"🏢 {lead_data.get('empresa', '-')}\n"
+        f"📱 +51{lead_data.get('telefono')}\n"
+        f"📧 {lead_data.get('correo')}\n"
+        f"🏷️ Rubro: {lead_data.get('rubro')}\n"
+        f"💰 Cotización: {lead_data.get('costo_estimado')}\n"
+        f"📝 {problema_corto}\n\n"
+        f"👉 Responder: wa.me/51{lead_data.get('telefono')}"
+    )
+    encoded = urllib.parse.quote(mensaje)
+    url = f"https://api.callmebot.com/whatsapp.php?phone={phone}&text={encoded}&apikey={apikey}"
+    try:
+        async with httpx.AsyncClient() as client:
+            response = await client.get(url, timeout=8.0)
+            if response.status_code == 200:
+                print("Éxito: Notificación WhatsApp enviada al admin via Callmebot.")
+            else:
+                print(f"Error Callmebot (Status {response.status_code}): {response.text[:100]}")
+    except Exception as e:
+        print(f"Excepción al enviar WhatsApp via Callmebot: {str(e)}")
+
+
 @app.get("/", response_class=HTMLResponse)
 async def read_index(request: Request):
     """Renderiza la página de inicio (Landing Page)."""
@@ -241,8 +275,9 @@ async def handle_contact(
     # 2. Guardar en la nube (Supabase)
     await guardar_lead_supabase(lead_data)
     
-    # 3. Enviar correo de notificación de forma no bloqueante (Background Task)
+    # 3. Enviar notificaciones de forma no bloqueante (Background Tasks)
     background_tasks.add_task(enviar_correo_notificacion, lead_data)
+    background_tasks.add_task(enviar_whatsapp_admin, lead_data)
     
     # Redireccionar a la página de éxito pasando información personalizada como parámetros query
     redirect_url = f"/success?nombre={nombre}&rubro={rubro}&empresa={empresa or ''}"
