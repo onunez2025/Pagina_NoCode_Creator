@@ -5,7 +5,9 @@ from datetime import datetime
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from typing import Optional
-from fastapi import FastAPI, Request, Form, status, BackgroundTasks
+from fastapi import FastAPI, Request, Form, status, BackgroundTasks, Depends, HTTPException
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
+import secrets
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -27,6 +29,23 @@ try:
     SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
 except (ValueError, TypeError):
     SMTP_PORT = 587
+
+ADMIN_USER = os.getenv("ADMIN_USER", "admin")
+ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "")
+
+security = HTTPBasic()
+
+def verificar_admin(credentials: HTTPBasicCredentials = Depends(security)):
+    user_ok = secrets.compare_digest(credentials.username.encode(), ADMIN_USER.encode())
+    pass_ok = secrets.compare_digest(credentials.password.encode(), ADMIN_PASSWORD.encode())
+    if not (user_ok and pass_ok) or not ADMIN_PASSWORD:
+        raise HTTPException(
+            status_code=401,
+            detail="Credenciales incorrectas",
+            headers={"WWW-Authenticate": "Basic"},
+        )
+    return credentials.username
+
 
 app = FastAPI(
     title="No-Code-Creator Landing Page API",
@@ -400,6 +419,71 @@ async def chat_with_gemini(chat_req: ChatRequest):
     return {
         "response": "Disculpa la interrupción. Estoy experimentando una breve latencia de conexión, pero cuéntame: ¿qué tipo de sistema o módulo digital necesitas para tu negocio hoy? Estoy aquí para orientarte."
     }
+
+@app.get("/admin", response_class=HTMLResponse)
+async def admin_panel(request: Request, _: str = Depends(verificar_admin)):
+    """Panel de administración de leads protegido con HTTP Basic Auth."""
+    leads = []
+    if SUPABASE_URL and SUPABASE_KEY:
+        url = f"{SUPABASE_URL.rstrip('/')}/rest/v1/leads?order=timestamp.desc"
+        headers = {
+            "apikey": SUPABASE_KEY,
+            "Authorization": f"Bearer {SUPABASE_KEY}",
+        }
+        try:
+            async with httpx.AsyncClient() as client:
+                response = await client.get(url, headers=headers, timeout=8.0)
+                if response.status_code == 200:
+                    leads = response.json()
+        except Exception as e:
+            print(f"Error leyendo leads de Supabase: {e}")
+
+    if not leads and os.path.exists(LEADS_FILE):
+        try:
+            with open(LEADS_FILE, "r", encoding="utf-8") as f:
+                leads = json.load(f)
+                leads = list(reversed(leads))
+        except Exception:
+            leads = []
+
+    return templates.TemplateResponse(
+        request=request,
+        name="admin.html",
+        context={"leads": leads}
+    )
+
+
+@app.patch("/api/leads/{lead_id}/status")
+async def update_lead_status(lead_id: str, request: Request, _: str = Depends(verificar_admin)):
+    """Actualiza el estado de un lead en Supabase."""
+    body = await request.json()
+    new_status = body.get("status", "nuevo")
+    valid_statuses = {"nuevo", "contactado", "en_negociacion", "ganado", "perdido"}
+    if new_status not in valid_statuses:
+        raise HTTPException(status_code=400, detail=f"Estado inválido. Usar: {valid_statuses}")
+
+    if SUPABASE_URL and SUPABASE_KEY:
+        url = f"{SUPABASE_URL.rstrip('/')}/rest/v1/leads?id=eq.{lead_id}"
+        headers = {
+            "apikey": SUPABASE_KEY,
+            "Authorization": f"Bearer {SUPABASE_KEY}",
+            "Content-Type": "application/json",
+            "Prefer": "return=minimal"
+        }
+        try:
+            async with httpx.AsyncClient() as client:
+                response = await client.patch(url, json={"status": new_status}, headers=headers, timeout=8.0)
+                if response.status_code in [200, 204]:
+                    return {"ok": True, "status": new_status}
+                else:
+                    raise HTTPException(status_code=502, detail="Error actualizando en Supabase")
+        except HTTPException:
+            raise
+        except Exception as e:
+            raise HTTPException(status_code=502, detail=str(e))
+
+    return {"ok": True, "status": new_status, "note": "Supabase no configurado, estado no persistido"}
+
 
 if __name__ == "__main__":
     import uvicorn

@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-8">
+        <div>
+            <div class="eyebrow eyebrow--block mb-1">PANEL ADMIN</div>
+            <h1 class="text-2xl font-extrabold text-white">Gestión de Leads</h1>
+        </div>
+        <div class="flex items-center gap-4">
+            <div class="font-mono text-xs text-slate-500">
+                Total: <span class="text-brand-electric font-bold">{{ leads | length }}</span> leads
+            </div>
+            <a href="/" class="os-cta-ghost font-mono text-xs uppercase tracking-wider py-2 px-4">
+                <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+                Ir al sitio
+            </a>
+        </div>
+    </div>
+
+    <!-- Status summary badges -->
+    <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-8">
+        {% for estado, label in [('nuevo','Nuevo'),('contactado','Contactado'),('en_negociacion','En negociación'),('ganado','Ganado'),('perdido','Perdido')] %}
+        <div class="bento-card py-3 text-center">
+            <div class="text-xl font-black text-white">
+                {% set count = namespace(value=0) %}
+                {% for l in leads %}
+                    {% if l.get('status', 'nuevo') == estado %}
+                        {% set count.value = count.value + 1 %}
+                    {% endif %}
+                {% endfor %}
+                {{ count.value }}
+            </div>
+            <div class="font-mono text-[9px] text-slate-500 uppercase tracking-widest mt-1">{{ label }}</div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Leads table -->
+    {% if leads %}
+    <div class="os-card p-0 overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left font-mono text-xs">
+                <thead>
+                    <tr class="bg-brand-deep/40 border-b border-white/10 text-slate-400 uppercase tracking-wider">
+                        <th class="p-4">Fecha</th>
+                        <th class="p-4">Cliente</th>
+                        <th class="p-4">Empresa</th>
+                        <th class="p-4">Rubro</th>
+                        <th class="p-4">Cotización</th>
+                        <th class="p-4">Estado</th>
+                        <th class="p-4">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-white/5">
+                    {% for lead in leads %}
+                    {% set lead_id = lead.get('id', loop.index | string) %}
+                    {% set lead_status = lead.get('status', 'nuevo') %}
+                    <tr
+                        class="hover:bg-brand-deep/20 transition-colors"
+                        x-data="{ status: '{{ lead_status }}', saving: false }"
+                    >
+                        <td class="p-4 text-slate-500 whitespace-nowrap">
+                            {{ lead.get('timestamp', '-')[:16] if lead.get('timestamp') else '-' }}
+                        </td>
+                        <td class="p-4">
+                            <div class="font-bold text-white">{{ lead.get('nombre', '-') }}</div>
+                            <div class="text-slate-500 text-[10px] mt-0.5">{{ lead.get('correo', '-') }}</div>
+                        </td>
+                        <td class="p-4 text-slate-300">{{ lead.get('empresa', '-') }}</td>
+                        <td class="p-4">
+                            <span class="os-pill os-pill--primary text-[9px]">{{ lead.get('rubro', '-') }}</span>
+                        </td>
+                        <td class="p-4 text-brand-electric font-bold">
+                            {{ lead.get('costo_estimado', '-') }}
+                        </td>
+                        <td class="p-4">
+                            <select
+                                x-model="status"
+                                @change="
+                                    saving = true;
+                                    fetch('/api/leads/{{ lead_id }}/status', {
+                                        method: 'PATCH',
+                                        credentials: 'same-origin',
+                                        headers: {'Content-Type': 'application/json'},
+                                        body: JSON.stringify({status: status})
+                                    }).then(r => r.json()).then(() => { saving = false; }).catch(() => { saving = false; })
+                                "
+                                :class="{
+                                    'text-brand-electric': status === 'nuevo',
+                                    'text-blue-400': status === 'contactado',
+                                    'text-amber-400': status === 'en_negociacion',
+                                    'text-emerald-400': status === 'ganado',
+                                    'text-slate-400': status === 'perdido'
+                                }"
+                                class="bg-brand-deep/50 border border-white/10 rounded-lg px-2 py-1 text-[10px] font-bold uppercase tracking-wider focus:outline-none focus:border-brand-electric cursor-pointer"
+                            >
+                                <option value="nuevo">Nuevo</option>
+                                <option value="contactado">Contactado</option>
+                                <option value="en_negociacion">En negociación</option>
+                                <option value="ganado">Ganado</option>
+                                <option value="perdido">Perdido</option>
+                            </select>
+                            <span x-show="saving" class="ml-2 inline-block w-3 h-3 border-2 border-brand-electric border-t-transparent rounded-full animate-spin"></span>
+                        </td>
+                        <td class="p-4">
+                            <div class="flex items-center gap-2">
+                                <a
+                                    href="https://wa.me/51{{ lead.get('telefono', '') }}?text={{ ('Hola ' + lead.get('nombre', '') + ', vi tu solicitud en NoCode Creator para el rubro de ' + lead.get('rubro', '') + '. ¿Conversamos?') | urlencode }}"
+                                    target="_blank"
+                                    class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 hover:bg-emerald-500/20 transition-colors text-[10px] font-bold uppercase"
+                                    title="Abrir WhatsApp"
+                                >
+                                    <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
+                                    WA
+                                </a>
+                                <a
+                                    href="mailto:{{ lead.get('correo', '') }}"
+                                    class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-brand-blue/10 border border-brand-blue/20 text-brand-blue hover:bg-brand-blue/20 transition-colors text-[10px] font-bold uppercase"
+                                    title="Enviar Email"
+                                >
+                                    <i data-lucide="mail" class="w-3.5 h-3.5"></i>
+                                    Email
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Detalle de solicitudes -->
+    <div class="mt-8">
+        <div class="eyebrow eyebrow--block mb-4">DETALLE DE SOLICITUDES</div>
+        <div class="space-y-3">
+            {% for lead in leads %}
+            {% if lead.get('problema') and lead.get('problema') != 'No especificado' %}
+            <div class="os-card py-3 px-4">
+                <div class="flex items-start justify-between gap-4">
+                    <div class="flex-1">
+                        <span class="font-bold text-white text-sm">{{ lead.get('nombre', '-') }}</span>
+                        <span class="text-slate-500 text-xs mx-2">·</span>
+                        <span class="text-brand-electric text-xs font-mono">{{ lead.get('rubro', '-') }}</span>
+                        <p class="text-slate-400 text-xs mt-1 leading-relaxed">{{ lead.get('problema', '-') }}</p>
+                    </div>
+                    <span class="text-slate-600 text-[10px] font-mono whitespace-nowrap">
+                        {{ lead.get('timestamp', '-')[:10] if lead.get('timestamp') else '-' }}
+                    </span>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+    {% else %}
+    <div class="bento-card text-center py-16">
+        <i data-lucide="inbox" class="w-12 h-12 text-slate-600 mx-auto mb-4"></i>
+        <p class="text-slate-500 font-mono text-sm">No hay leads registrados aún.</p>
+        <p class="text-slate-600 font-mono text-xs mt-2">Los leads aparecerán aquí cuando los clientes completen el formulario.</p>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}
