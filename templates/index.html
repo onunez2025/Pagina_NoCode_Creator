@@ -104,95 +104,162 @@
     }
 }">
 
-    <!-- ==================== ── █ HERO / GREETING SECTION ── ==================== -->
-    <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 flex flex-col md:flex-row items-center justify-between gap-12 relative overflow-hidden">
-        <!-- Decoration glows behind hero -->
-        <div class="glow-backdrop glow-backdrop--cyan w-[300px] h-[300px] top-[-50px] left-[-50px]"></div>
-        
-        <!-- Hero Text content -->
-        <div class="flex-1 space-y-6 text-center md:text-left relative z-10">
-            <div class="inline-flex items-center space-x-2 bg-brand-cyan/10 border border-brand-cyan/20 px-3 py-1.5 rounded-full text-brand-cyan text-xs font-mono tracking-wider">
-                <span class="flex h-2 w-2 relative">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-cyan opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-cyan"></span>
-                </span>
-                <span>TECNOLOGÍA AI + LOW-CODE EN LIMA, PERÚ</span>
+    <!-- ==================== HERO ==================== -->
+    <section class="relative min-h-[90vh] flex items-center overflow-hidden">
+        <div class="hero-mesh"></div>
+        <div class="absolute inset-0 tech-grid-overlay opacity-20 pointer-events-none"></div>
+
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-20 flex flex-col md:flex-row items-center justify-between gap-16 relative z-10">
+            <!-- Text -->
+            <div class="flex-1 space-y-8 text-center md:text-left">
+                <div class="inline-flex items-center space-x-2 shimmer-badge border border-brand-electric/20 px-4 py-2 rounded-full text-brand-electric text-xs font-mono tracking-wider">
+                    <span class="flex h-2 w-2 relative">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-electric opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-electric"></span>
+                    </span>
+                    <span>IA + LOW-CODE · LIMA, PERÚ</span>
+                </div>
+
+                <div class="space-y-4">
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.05] text-white">
+                        Construimos<br>
+                        <span class="text-gradient-blue">cualquier plataforma</span><br>
+                        digital que imagines
+                    </h1>
+                    <p class="text-slate-400 text-base sm:text-lg max-w-xl mx-auto md:mx-0 leading-relaxed">
+                        Páginas web, apps móviles, sistemas ERP o tiendas online — las creamos con IA y Low-Code en tiempo récord. <strong class="text-white">Desde S/ 500.</strong> Soporte local en Lima.
+                    </p>
+                </div>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
+                    <a href="#cotizador" class="w-full sm:w-auto os-cta font-mono uppercase tracking-wider text-sm">
+                        <i data-lucide="calculator" class="w-4 h-4"></i>
+                        Cotizar mi proyecto
+                    </a>
+                    <a href="#lo-que-construimos" class="w-full sm:w-auto os-cta-ghost font-mono uppercase tracking-wider text-sm">
+                        Ver lo que hacemos
+                        <i data-lucide="arrow-down" class="w-4 h-4"></i>
+                    </a>
+                </div>
+
+                <div class="flex items-center justify-center md:justify-start gap-6 pt-2 font-mono text-xs text-slate-500">
+                    <span class="flex items-center gap-1.5"><i data-lucide="check-circle" class="w-3.5 h-3.5 text-brand-electric"></i>85% más barato</span>
+                    <span class="flex items-center gap-1.5"><i data-lucide="check-circle" class="w-3.5 h-3.5 text-brand-electric"></i>Entrega acelerada</span>
+                    <span class="flex items-center gap-1.5"><i data-lucide="check-circle" class="w-3.5 h-3.5 text-brand-electric"></i>Soporte Lima</span>
+                </div>
             </div>
-            
-            <div class="space-y-3">
-                <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3">
-                    <div class="relative flex-shrink-0">
-                        <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-brand-cyan to-brand-indigo flex items-center justify-center text-xl shadow-md border border-white/10">
-                            ⚡
+
+            <!-- Browser mockup -->
+            <div class="flex-1 w-full max-w-lg md:max-w-none relative os-animate-float">
+                <div class="absolute -inset-2 rounded-2xl bg-gradient-to-tr from-brand-deep to-brand-blue opacity-20 blur-3xl -z-10"></div>
+                <div class="os-glass-panel rounded-2xl p-2 shadow-2xl border border-brand-electric/15">
+                    <div class="bg-brand-navy/90 rounded-xl overflow-hidden border border-white/5 relative">
+                        <div class="bg-brand-navy px-4 py-2 flex items-center justify-between border-b border-white/5 font-mono text-[10px]">
+                            <div class="flex space-x-1.5">
+                                <span class="w-2.5 h-2.5 rounded-full bg-red-500/60"></span>
+                                <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/60"></span>
+                                <span class="w-2.5 h-2.5 rounded-full bg-green-500/60"></span>
+                            </div>
+                            <div class="bg-brand-deep/80 text-slate-500 px-3 py-0.5 rounded border border-white/5 w-1/2 truncate text-center">
+                                nocodecreator.pe/demo
+                            </div>
+                            <div class="text-brand-electric font-bold">200 OK</div>
                         </div>
-                        <span class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-emerald-500 rounded-full border-2 border-slate-900 animate-pulse"></span>
-                    </div>
-                    <div class="text-left font-mono">
-                        <p class="text-xs text-slate-400 leading-none">IDENTIDAD DEL SISTEMA</p>
-                        <p class="text-sm font-bold text-white mt-1">HOLA! SOMOS NO-CODE-CREATOR</p>
+                        <img
+                            src="/static/images/dashboard_preview.png"
+                            alt="Panel creado con IA"
+                            class="w-full h-auto object-cover border-b border-white/5 opacity-85"
+                            onerror="this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80'"
+                        />
+                        <div class="absolute bottom-4 left-4 os-glass-panel rounded-xl p-3 shadow-lg border border-brand-electric/20 flex items-center space-x-3">
+                            <div class="w-7 h-7 rounded-lg bg-brand-electric/20 flex items-center justify-center text-brand-electric">
+                                <i data-lucide="zap" class="w-4 h-4"></i>
+                            </div>
+                            <div class="font-mono text-left">
+                                <p class="text-[9px] text-slate-500 leading-none">VELOCIDAD</p>
+                                <p class="text-xs font-bold text-white mt-1">Despliegue Acelerado</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                
-                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight text-white mt-4">
-                    Digitalizamos tu negocio <br>
-                    con <span class="text-brand-cyan text-gradient-cyan-indigo font-black">IA y Low-Code</span>
-                </h1>
-            </div>
-            
-            <p class="text-slate-400 text-sm sm:text-base max-w-xl mx-auto md:mx-0 leading-relaxed font-mono">
-                Diseñamos e implementamos sistemas web, e-commerce y aplicaciones móviles a la medida en tiempo récord. Sin meses de espera y a una fracción del costo tradicional. Conectado a Yape, Plin y facturación local peruana.
-            </p>
-
-            <!-- CTAs -->
-            <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 pt-2">
-                <a href="#cotizador" class="w-full sm:w-auto os-cta font-mono uppercase tracking-wider">
-                    <i data-lucide="calculator" class="w-4 h-4"></i>
-                    Cotizador AI
-                </a>
-                <button type="button" class="w-full sm:w-auto os-cta-ghost font-mono uppercase tracking-wider" data-open-term>
-                    <i data-lucide="terminal" class="w-4 h-4"></i>
-                    Modo Terminal
-                </button>
             </div>
         </div>
+    </section>
 
-        <!-- Hero Browser Mockup -->
-        <div class="flex-1 w-full max-w-lg md:max-w-none relative os-animate-float">
-            <div class="absolute -inset-1 rounded-2xl bg-gradient-to-tr from-brand-cyan to-brand-indigo opacity-20 blur-2xl -z-10"></div>
-            
-            <div class="os-glass-panel rounded-2xl p-2 shadow-2xl border border-white/10">
-                <div class="bg-slate-950/90 rounded-xl overflow-hidden border border-white/5 relative">
-                    <!-- Browser Header bar -->
-                    <div class="bg-slate-900 px-4 py-2 flex items-center justify-between border-b border-white/5 font-mono text-[10px]">
-                        <div class="flex space-x-1.5">
-                            <span class="w-2.5 h-2.5 rounded-full bg-red-500/60"></span>
-                            <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/60"></span>
-                            <span class="w-2.5 h-2.5 rounded-full bg-green-500/60"></span>
-                        </div>
-                        <div class="bg-slate-950 text-slate-500 px-3 py-0.5 rounded border border-white/5 w-1/2 truncate text-center">
-                            https://sistema.nocodecreator.pe/demo
-                        </div>
-                        <div class="text-emerald-500 font-bold">200 OK</div>
-                    </div>
-                    
-                    <!-- Screenshot visual -->
-                    <img 
-                        src="/static/images/dashboard_preview.png" 
-                        alt="Panel de Control Creado con IA" 
-                        class="w-full h-auto object-cover border-b border-white/5 opacity-85"
-                        onerror="this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80'"
-                    />
+    <!-- ==================== LO QUE CONSTRUIMOS ==================== -->
+    <section id="lo-que-construimos" class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative">
+        <div class="section-head mb-12 text-center">
+            <span class="eyebrow eyebrow--block">CAPACIDADES</span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-3">Construimos cualquier tipo de plataforma</h2>
+            <p class="text-slate-400 text-sm mt-3 max-w-xl mx-auto">Sin importar tu industria o tamaño, si lo imaginas, lo construimos con IA y Low-Code.</p>
+        </div>
 
-                    <!-- Overlay badge -->
-                    <div class="absolute bottom-4 left-4 os-glass-panel rounded-xl p-3 shadow-lg border border-brand-cyan/20 flex items-center space-x-3">
-                        <div class="w-7 h-7 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-400">
-                            <i data-lucide="check" class="w-4 h-4"></i>
-                        </div>
-                        <div class="font-mono text-left">
-                            <p class="text-[9px] text-slate-500 leading-none">VELOCIDAD DE ENTREGA</p>
-                            <p class="text-xs font-bold text-white mt-1">Despliegue Acelerado</p>
-                        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div class="bento-card group">
+                <div class="flex items-start gap-4 mb-5">
+                    <div class="w-12 h-12 rounded-xl bg-brand-electric/10 border border-brand-electric/20 flex items-center justify-center text-brand-electric flex-shrink-0">
+                        <i data-lucide="globe" class="w-6 h-6"></i>
                     </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-white">Páginas Web & Landings</h3>
+                        <p class="text-slate-400 text-sm mt-1 leading-relaxed">Sitios institucionales, portfolios, blogs y landing pages de producto que convierten visitas en clientes.</p>
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <span class="os-pill os-pill--primary font-mono text-[9px]">LANDING PAGE</span>
+                    <span class="os-pill font-mono text-[9px]">PORTAFOLIO</span>
+                    <span class="os-pill font-mono text-[9px]">BLOG CORPORATIVO</span>
+                </div>
+            </div>
+
+            <div class="bento-card group">
+                <div class="flex items-start gap-4 mb-5">
+                    <div class="w-12 h-12 rounded-xl bg-brand-blue/10 border border-brand-blue/20 flex items-center justify-center text-brand-blue flex-shrink-0">
+                        <i data-lucide="smartphone" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-white">Apps Móviles iOS & Android</h3>
+                        <p class="text-slate-400 text-sm mt-1 leading-relaxed">Aplicaciones híbridas para cualquier dispositivo: apps de pedidos, reservas, entregas y más.</p>
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <span class="os-pill os-pill--secondary font-mono text-[9px]">iOS & ANDROID</span>
+                    <span class="os-pill font-mono text-[9px]">REACT NATIVE</span>
+                    <span class="os-pill font-mono text-[9px]">FLUTTER</span>
+                </div>
+            </div>
+
+            <div class="bento-card group">
+                <div class="flex items-start gap-4 mb-5">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 flex-shrink-0">
+                        <i data-lucide="layout-dashboard" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-white">Sistemas ERP & CRM</h3>
+                        <p class="text-slate-400 text-sm mt-1 leading-relaxed">Paneles administrativos, control de inventario, POS, reportes con IA y dashboards de gestión completos.</p>
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <span class="os-pill os-pill--green font-mono text-[9px]">POS & CAJA</span>
+                    <span class="os-pill font-mono text-[9px]">INVENTARIO</span>
+                    <span class="os-pill font-mono text-[9px]">DASHBOARD AI</span>
+                </div>
+            </div>
+
+            <div class="bento-card group">
+                <div class="flex items-start gap-4 mb-5">
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 flex-shrink-0">
+                        <i data-lucide="shopping-cart" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-white">E-commerce & Tiendas Online</h3>
+                        <p class="text-slate-400 text-sm mt-1 leading-relaxed">Tiendas con carrito, catálogo, pasarelas Yape/Plin/Culqi y facturación electrónica peruana integrada.</p>
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <span class="os-pill os-pill--warn font-mono text-[9px]">YAPE / PLIN</span>
+                    <span class="os-pill font-mono text-[9px]">CULQI / NIUBIZ</span>
+                    <span class="os-pill font-mono text-[9px]">FACTURA ELECTRÓNICA</span>
                 </div>
             </div>
         </div>
