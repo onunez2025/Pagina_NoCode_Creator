@@ -105,80 +105,118 @@
 }">
 
     <!-- ==================== HERO ==================== -->
-    <section class="relative min-h-[90vh] flex items-center overflow-hidden">
+    <section class="relative min-h-[75vh] flex items-center overflow-hidden">
         <div class="hero-mesh"></div>
         <div class="absolute inset-0 tech-grid-overlay opacity-20 pointer-events-none"></div>
 
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-20 flex flex-col md:flex-row items-center justify-between gap-16 relative z-10">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col md:flex-row items-center justify-between gap-12 relative z-10">
             <!-- Text -->
-            <div class="flex-1 space-y-8 text-center md:text-left">
-                <div class="inline-flex items-center space-x-2 shimmer-badge border border-brand-electric/20 px-4 py-2 rounded-full text-brand-electric text-xs font-mono tracking-wider">
+            <div class="flex-1 space-y-6 text-center md:text-left">
+                <!-- Badge humano -->
+                <div class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 px-4 py-2 rounded-full text-emerald-400 text-xs font-mono">
                     <span class="flex h-2 w-2 relative">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-electric opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-electric"></span>
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
                     </span>
-                    <span>IA + LOW-CODE · LIMA, PERÚ</span>
+                    Respondemos por WhatsApp · Lima, Perú
                 </div>
 
                 <div class="space-y-4">
                     <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.05] text-white">
-                        Construimos<br>
-                        <span class="text-gradient-blue">cualquier plataforma</span><br>
-                        digital que imagines
+                        Tu negocio,<br>
+                        <span class="text-gradient-blue">en digital</span><br>
+                        desde S/ 500
                     </h1>
-                    <p class="text-slate-400 text-base sm:text-lg max-w-xl mx-auto md:mx-0 leading-relaxed">
-                        Páginas web, apps móviles, sistemas ERP o tiendas online — las creamos con IA y Low-Code en tiempo récord. <strong class="text-white">Desde S/ 500.</strong> Soporte local en Lima.
+                    <p class="text-slate-400 text-base max-w-lg mx-auto md:mx-0 leading-relaxed">
+                        Creamos páginas web, tiendas online, apps y sistemas de gestión para negocios en Lima. Rápido, económico y con soporte directo por WhatsApp.
                     </p>
                 </div>
 
-                <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
-                    <a href="#cotizador" class="w-full sm:w-auto os-cta font-mono uppercase tracking-wider text-sm">
-                        <i data-lucide="calculator" class="w-4 h-4"></i>
-                        Cotizar mi proyecto
+                <!-- CTAs -->
+                <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3">
+                    <a href="https://wa.me/51960560064?text=Hola%2C%20quiero%20saber%20más%20sobre%20sus%20servicios" target="_blank" class="w-full sm:w-auto os-cta text-sm gap-2">
+                        <i data-lucide="message-circle" class="w-4 h-4"></i>
+                        Hablar por WhatsApp
                     </a>
-                    <a href="#lo-que-construimos" class="w-full sm:w-auto os-cta-ghost font-mono uppercase tracking-wider text-sm">
-                        Ver lo que hacemos
-                        <i data-lucide="arrow-down" class="w-4 h-4"></i>
+                    <a href="#cotizador" class="w-full sm:w-auto os-cta-ghost text-sm gap-2">
+                        <i data-lucide="calculator" class="w-4 h-4"></i>
+                        Ver precios
                     </a>
                 </div>
 
-                <div class="flex items-center justify-center md:justify-start gap-6 pt-2 font-mono text-xs text-slate-500">
-                    <span class="flex items-center gap-1.5"><i data-lucide="check-circle" class="w-3.5 h-3.5 text-brand-electric"></i>85% más barato</span>
-                    <span class="flex items-center gap-1.5"><i data-lucide="check-circle" class="w-3.5 h-3.5 text-brand-electric"></i>Entrega acelerada</span>
-                    <span class="flex items-center gap-1.5"><i data-lucide="check-circle" class="w-3.5 h-3.5 text-brand-electric"></i>Soporte Lima</span>
+                <!-- WhatsApp directo visible -->
+                <div class="flex items-center justify-center md:justify-start gap-2 text-sm text-slate-400">
+                    <i data-lucide="phone" class="w-4 h-4 text-emerald-400"></i>
+                    <span>O llámanos: <a href="tel:+51960560064" class="text-white font-semibold hover:text-brand-electric transition-colors">+51 960 560 064</a></span>
                 </div>
             </div>
 
-            <!-- Browser mockup -->
-            <div class="flex-1 w-full max-w-lg md:max-w-none relative os-animate-float">
+            <!-- Mockup de plataforma peruana -->
+            <div class="flex-1 w-full max-w-sm md:max-w-none relative os-animate-float">
                 <div class="absolute -inset-2 rounded-2xl bg-gradient-to-tr from-brand-deep to-brand-blue opacity-20 blur-3xl -z-10"></div>
-                <div class="os-glass-panel rounded-2xl p-2 shadow-2xl border border-brand-electric/15">
-                    <div class="bg-brand-navy/90 rounded-xl overflow-hidden border border-white/5 relative">
-                        <div class="bg-brand-navy px-4 py-2 flex items-center justify-between border-b border-white/5 font-mono text-[10px]">
-                            <div class="flex space-x-1.5">
-                                <span class="w-2.5 h-2.5 rounded-full bg-red-500/60"></span>
-                                <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/60"></span>
-                                <span class="w-2.5 h-2.5 rounded-full bg-green-500/60"></span>
+                <div class="os-glass-panel rounded-2xl overflow-hidden border border-brand-electric/15 shadow-2xl">
+                    <!-- Topbar del app -->
+                    <div class="bg-brand-deep/80 px-4 py-3 flex items-center justify-between border-b border-white/5">
+                        <div class="flex items-center gap-2">
+                            <div class="w-6 h-6 rounded bg-brand-electric/20 flex items-center justify-center">
+                                <i data-lucide="store" class="w-3.5 h-3.5 text-brand-electric"></i>
                             </div>
-                            <div class="bg-brand-deep/80 text-slate-500 px-3 py-0.5 rounded border border-white/5 w-1/2 truncate text-center">
-                                nocodecreator.pe/demo
-                            </div>
-                            <div class="text-brand-electric font-bold">200 OK</div>
+                            <span class="text-white text-xs font-bold">Mi Tienda Online</span>
                         </div>
-                        <img
-                            src="/static/images/dashboard_preview.png"
-                            alt="Panel creado con IA"
-                            class="w-full h-auto object-cover border-b border-white/5 opacity-85"
-                            onerror="this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80'"
-                        />
-                        <div class="absolute bottom-4 left-4 os-glass-panel rounded-xl p-3 shadow-lg border border-brand-electric/20 flex items-center space-x-3">
-                            <div class="w-7 h-7 rounded-lg bg-brand-electric/20 flex items-center justify-center text-brand-electric">
-                                <i data-lucide="zap" class="w-4 h-4"></i>
+                        <span class="text-emerald-400 text-[10px] font-mono font-bold flex items-center gap-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                            EN LÍNEA
+                        </span>
+                    </div>
+
+                    <!-- Contenido del mockup -->
+                    <div class="p-4 space-y-3 bg-brand-navy/60">
+                        <!-- Stats row -->
+                        <div class="grid grid-cols-3 gap-2">
+                            <div class="bg-brand-deep/60 rounded-lg p-2.5 text-center border border-white/5">
+                                <p class="text-brand-electric font-bold text-sm">S/ 3,240</p>
+                                <p class="text-slate-500 text-[9px] mt-0.5">Ventas hoy</p>
                             </div>
-                            <div class="font-mono text-left">
-                                <p class="text-[9px] text-slate-500 leading-none">VELOCIDAD</p>
-                                <p class="text-xs font-bold text-white mt-1">Despliegue Acelerado</p>
+                            <div class="bg-brand-deep/60 rounded-lg p-2.5 text-center border border-white/5">
+                                <p class="text-emerald-400 font-bold text-sm">28</p>
+                                <p class="text-slate-500 text-[9px] mt-0.5">Pedidos</p>
                             </div>
+                            <div class="bg-brand-deep/60 rounded-lg p-2.5 text-center border border-white/5">
+                                <p class="text-amber-400 font-bold text-sm">4</p>
+                                <p class="text-slate-500 text-[9px] mt-0.5">Pendientes</p>
+                            </div>
+                        </div>
+
+                        <!-- Pedidos recientes -->
+                        <div class="space-y-1.5">
+                            <p class="text-slate-500 text-[9px] font-mono uppercase tracking-wider">Pedidos recientes</p>
+                            <div class="flex items-center justify-between bg-brand-deep/40 rounded-lg px-3 py-2 border border-white/5">
+                                <div>
+                                    <p class="text-white text-xs font-semibold">Pollo a la Brasa × 2</p>
+                                    <p class="text-slate-500 text-[9px]">Carlos M. · Yape</p>
+                                </div>
+                                <span class="text-emerald-400 text-xs font-bold">S/ 58</span>
+                            </div>
+                            <div class="flex items-center justify-between bg-brand-deep/40 rounded-lg px-3 py-2 border border-white/5">
+                                <div>
+                                    <p class="text-white text-xs font-semibold">Ceviche Mixto × 1</p>
+                                    <p class="text-slate-500 text-[9px]">Ana R. · Plin</p>
+                                </div>
+                                <span class="text-emerald-400 text-xs font-bold">S/ 35</span>
+                            </div>
+                            <div class="flex items-center justify-between bg-brand-deep/40 rounded-lg px-3 py-2 border border-white/5">
+                                <div>
+                                    <p class="text-white text-xs font-semibold">Lomo Saltado × 3</p>
+                                    <p class="text-slate-500 text-[9px]">Miguel P. · Efectivo</p>
+                                </div>
+                                <span class="text-amber-400 text-xs font-bold">Pendiente</span>
+                            </div>
+                        </div>
+
+                        <!-- Footer badge -->
+                        <div class="flex items-center gap-2 bg-brand-electric/5 border border-brand-electric/15 rounded-lg px-3 py-2">
+                            <i data-lucide="zap" class="w-3.5 h-3.5 text-brand-electric flex-shrink-0"></i>
+                            <p class="text-slate-400 text-[10px]">Creado por <span class="text-brand-electric font-semibold">NoCode Creator</span> · Lima</p>
                         </div>
                     </div>
                 </div>
