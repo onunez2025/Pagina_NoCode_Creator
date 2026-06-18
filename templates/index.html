@@ -1187,78 +1187,113 @@
         </div>
     </section>
 
-    <!-- ==================== ── █ PREGUNTAS FRECUENTES (FAQ ACCORDION) ── ==================== -->
-    <section id="faq" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative">
-        <div class="section-head mb-12">
-            <span class="eyebrow eyebrow--block">PREGUNTAS FRECUENTES</span>
-            <span class="mono muted t-xs">LO MÁS CONSULTADO</span>
+    <!-- ==================== QUIÉN TE ATIENDE ==================== -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative">
+        <div class="section-head mb-10 text-center">
+            <span class="eyebrow eyebrow--block">QUIÉN TE ATIENDE</span>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-3">Una persona real, no un bot</h2>
         </div>
 
-        <div 
-            x-data="{ activeQuestion: null }" 
-            class="space-y-4"
-        >
+        <div class="bento-card flex flex-col sm:flex-row items-center gap-8">
+            <!-- Avatar -->
+            <div class="flex-shrink-0 text-center">
+                <div class="w-24 h-24 rounded-2xl bg-gradient-to-br from-brand-deep to-brand-blue flex items-center justify-center mx-auto shadow-xl shadow-brand-blue/20 border border-brand-electric/20">
+                    <span class="text-3xl font-black text-white">ON</span>
+                </div>
+                <p class="text-brand-electric text-xs font-mono mt-3 font-bold">FUNDADOR</p>
+            </div>
+
+            <!-- Bio -->
+            <div class="flex-1 text-center sm:text-left">
+                <h3 class="text-xl font-bold text-white mb-1">Oscar Nuñez</h3>
+                <p class="text-brand-electric text-xs font-mono mb-3">Especialista en IA + Low-Code · Lima, Perú</p>
+                <p class="text-slate-400 text-sm leading-relaxed mb-5">
+                    Ayudo a negocios en Lima a tener su plataforma digital sin pagar precios de agencia. Te atiendo personalmente por WhatsApp, coordino todo el proyecto contigo y me aseguro de que lo que construimos realmente le sirva a tu negocio.
+                </p>
+                <div class="flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-3">
+                    <a href="https://wa.me/51960560064?text=Hola%20Oscar%2C%20vi%20tu%20página%20y%20quiero%20saber%20más" target="_blank" class="os-cta text-sm gap-2 w-full sm:w-auto justify-center">
+                        <i data-lucide="message-circle" class="w-4 h-4"></i>
+                        Escribirle por WhatsApp
+                    </a>
+                    <a href="mailto:no.code.creator.adm@gmail.com" class="os-cta-ghost text-sm gap-2 w-full sm:w-auto justify-center">
+                        <i data-lucide="mail" class="w-4 h-4"></i>
+                        Enviar correo
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== PREGUNTAS FRECUENTES ==================== -->
+    <section id="faq" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative">
+        <div class="section-head mb-12">
+            <span class="eyebrow eyebrow--block">PREGUNTAS FRECUENTES</span>
+            <span class="mono muted t-xs">LO QUE MÁS NOS PREGUNTAN</span>
+        </div>
+
+        <div x-data="{ activeQuestion: null }" class="space-y-3">
             <div class="os-card p-0 border border-white/5 transition-all">
-                <button 
+                <button
                     @click="activeQuestion = activeQuestion === 1 ? null : 1"
-                    class="w-full text-left p-5 font-bold text-sm flex items-center justify-between text-white hover:text-brand-cyan transition-colors font-mono uppercase tracking-wide"
+                    class="w-full text-left p-5 font-semibold text-sm flex items-center justify-between text-white hover:text-brand-cyan transition-colors"
                 >
-                    <span>¿Qué significa que la plataforma sea "low-code" y creada con IA?</span>
-                    <i data-lucide="chevron-down" class="w-4 h-4 transition-transform duration-200" :class="activeQuestion === 1 ? 'rotate-180 text-brand-cyan' : 'text-slate-500'"></i>
+                    <span>¿Cuánto tiempo tarda en estar lista mi plataforma?</span>
+                    <i data-lucide="chevron-down" class="w-4 h-4 flex-shrink-0 transition-transform duration-200" :class="activeQuestion === 1 ? 'rotate-180 text-brand-cyan' : 'text-slate-500'"></i>
                 </button>
-                <div 
-                    x-show="activeQuestion === 1" 
-                    class="px-5 pb-5 text-xs sm:text-sm text-slate-400 leading-relaxed border-t border-white/5 pt-4 font-mono"
-                >
-                    Significa que usamos Inteligencia Artificial para acelerar las fases de diseño y modelado de tu app. Posteriormente, la ensamblamos sobre estructuras ágiles (low-code), lo que elimina meses de programación manual, garantizando una entrega veloz en tiempo récord y con un 85% de ahorro en costos.
+                <div x-show="activeQuestion === 1" class="px-5 pb-5 text-sm text-slate-400 leading-relaxed border-t border-white/5 pt-4">
+                    Depende del proyecto, pero la mayoría de páginas web y tiendas online las entregamos entre <strong class="text-white">7 y 21 días</strong>. Los sistemas más complejos (ERP, apps móviles) pueden tomar entre 4 y 8 semanas. Te damos una fecha de entrega exacta antes de empezar y la cumplimos.
                 </div>
             </div>
 
             <div class="os-card p-0 border border-white/5 transition-all">
-                <button 
+                <button
                     @click="activeQuestion = activeQuestion === 2 ? null : 2"
-                    class="w-full text-left p-5 font-bold text-sm flex items-center justify-between text-white hover:text-brand-cyan transition-colors font-mono uppercase tracking-wide"
+                    class="w-full text-left p-5 font-semibold text-sm flex items-center justify-between text-white hover:text-brand-cyan transition-colors"
                 >
-                    <span>¿Puedo integrar cobros con Yape, Plin y tarjetas de crédito?</span>
-                    <i data-lucide="chevron-down" class="w-4 h-4 transition-transform duration-200" :class="activeQuestion === 2 ? 'rotate-180 text-brand-cyan' : 'text-slate-500'"></i>
+                    <span>¿Qué pasa si no me gusta el resultado?</span>
+                    <i data-lucide="chevron-down" class="w-4 h-4 flex-shrink-0 transition-transform duration-200" :class="activeQuestion === 2 ? 'rotate-180 text-brand-cyan' : 'text-slate-500'"></i>
                 </button>
-                <div 
-                    x-show="activeQuestion === 2" 
-                    class="px-5 pb-5 text-xs sm:text-sm text-slate-400 leading-relaxed border-t border-white/5 pt-4 font-mono"
-                >
-                    Sí, absolutamente. Habilitamos accesos rápidos para lectura de códigos QR de Yape/Plin. Para transacciones completas bancarias, integramos pasarelas bancarias autorizadas locales como Culqi, Niubiz o MercadoPago.
+                <div x-show="activeQuestion === 2" class="px-5 pb-5 text-sm text-slate-400 leading-relaxed border-t border-white/5 pt-4">
+                    Trabajamos con revisiones durante todo el proceso para que el resultado final sea exactamente lo que necesitas. Incluimos hasta <strong class="text-white">2 rondas de ajustes sin costo adicional</strong> después de la entrega. No cobramos el saldo final hasta que estés conforme con lo entregado.
                 </div>
             </div>
 
             <div class="os-card p-0 border border-white/5 transition-all">
-                <button 
+                <button
                     @click="activeQuestion = activeQuestion === 3 ? null : 3"
-                    class="w-full text-left p-5 font-bold text-sm flex items-center justify-between text-white hover:text-brand-cyan transition-colors font-mono uppercase tracking-wide"
+                    class="w-full text-left p-5 font-semibold text-sm flex items-center justify-between text-white hover:text-brand-cyan transition-colors"
                 >
-                    <span>¿La plataforma digital me pertenecerá al 100%?</span>
-                    <i data-lucide="chevron-down" class="w-4 h-4 transition-transform duration-200" :class="activeQuestion === 3 ? 'rotate-180 text-brand-cyan' : 'text-slate-500'"></i>
+                    <span>¿Puedo pagar en cuotas?</span>
+                    <i data-lucide="chevron-down" class="w-4 h-4 flex-shrink-0 transition-transform duration-200" :class="activeQuestion === 3 ? 'rotate-180 text-brand-cyan' : 'text-slate-500'"></i>
                 </button>
-                <div 
-                    x-show="activeQuestion === 3" 
-                    class="px-5 pb-5 text-xs sm:text-sm text-slate-400 leading-relaxed border-t border-white/5 pt-4 font-mono"
-                >
-                    Sí. A diferencia de agencias que te atan con licencias de por vida, en **No-Code-Creator** transferimos la propiedad absoluta del panel administrador a tu cuenta una vez finalizada la entrega de la plataforma. Eres dueño absoluto de tu base de datos de clientes y catálogo.
+                <div x-show="activeQuestion === 3" class="px-5 pb-5 text-sm text-slate-400 leading-relaxed border-t border-white/5 pt-4">
+                    Sí. Manejamos pagos en <strong class="text-white">2 cuotas</strong>: 50% para arrancar el proyecto y 50% contra entrega. Aceptamos Yape, Plin, transferencia bancaria y efectivo. Para proyectos grandes podemos coordinar un plan diferente, conversamos.
                 </div>
             </div>
 
             <div class="os-card p-0 border border-white/5 transition-all">
-                <button 
+                <button
                     @click="activeQuestion = activeQuestion === 4 ? null : 4"
-                    class="w-full text-left p-5 font-bold text-sm flex items-center justify-between text-white hover:text-brand-cyan transition-colors font-mono uppercase tracking-wide"
+                    class="w-full text-left p-5 font-semibold text-sm flex items-center justify-between text-white hover:text-brand-cyan transition-colors"
                 >
-                    <span>¿Qué pasa si necesito hacer un cambio en el futuro?</span>
-                    <i data-lucide="chevron-down" class="w-4 h-4 transition-transform duration-200" :class="activeQuestion === 4 ? 'rotate-180 text-brand-cyan' : 'text-slate-500'"></i>
+                    <span>¿Tienen RUC? ¿Me pueden dar factura o boleta?</span>
+                    <i data-lucide="chevron-down" class="w-4 h-4 flex-shrink-0 transition-transform duration-200" :class="activeQuestion === 4 ? 'rotate-180 text-brand-cyan' : 'text-slate-500'"></i>
                 </button>
-                <div 
-                    x-show="activeQuestion === 4" 
-                    class="px-5 pb-5 text-xs sm:text-sm text-slate-400 leading-relaxed border-t border-white/5 pt-4 font-mono"
+                <div x-show="activeQuestion === 4" class="px-5 pb-5 text-sm text-slate-400 leading-relaxed border-t border-white/5 pt-4">
+                    Sí, somos formales. Emitimos <strong class="text-white">boletas y facturas electrónicas</strong> a través de SUNAT. Si necesitas que el gasto esté sustentado para tu empresa, no hay ningún problema.
+                </div>
+            </div>
+
+            <div class="os-card p-0 border border-white/5 transition-all">
+                <button
+                    @click="activeQuestion = activeQuestion === 5 ? null : 5"
+                    class="w-full text-left p-5 font-semibold text-sm flex items-center justify-between text-white hover:text-brand-cyan transition-colors"
                 >
-                    Esa es la gran ventaja del low-code. Al ser interfaces visuales ágiles, tú mismo o tu personal en Lima podrá subir productos, cambiar textos y ajustar precios con un editor extremadamente intuitivo. Y para integraciones complejas futuras, nuestro equipo técnico local estará siempre listo para darte soporte.
+                    <span>¿Qué pasa cuando termina el proyecto? ¿Me dejan solo?</span>
+                    <i data-lucide="chevron-down" class="w-4 h-4 flex-shrink-0 transition-transform duration-200" :class="activeQuestion === 5 ? 'rotate-180 text-brand-cyan' : 'text-slate-500'"></i>
+                </button>
+                <div x-show="activeQuestion === 5" class="px-5 pb-5 text-sm text-slate-400 leading-relaxed border-t border-white/5 pt-4">
+                    No. Incluimos <strong class="text-white">90 días de soporte</strong> por WhatsApp después de la entrega. Si algo falla, lo resolvemos. Además el primer mes de hosting es gratis. Después del soporte inicial, ofrecemos planes de mantenimiento mensual accesibles para que tu plataforma siempre esté operativa.
                 </div>
             </div>
         </div>
